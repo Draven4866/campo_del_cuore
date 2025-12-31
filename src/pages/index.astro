@@ -1,38 +1,54 @@
 ---
 /**
- * TOP = topbar
- * TEMPLATE = hero (hero.jpg)
+ * INDEX — Il Campo del Cuore
  *
- * STORY:
- * - slide bg: [0]=hero, [1]=01, [2]=02, [3]=03, [4]=04, [5]=05
- * - transizioni morbide con crossfade
- * - velo bianco (overlay) durante HERO -> 01 per mascherare lo “stacco”
- * - la prima card (“Il Campo”) compare prima (circa metà template) via overlap controllato
- * - card sticky attaccata al TOP
- * - testo “foglio”: riquadro (panelPaper) sotto la card, centrato + giustificato
- *
- * SCROLL HINT:
- * - desktop: “Scorri”
- * - mobile: “Scorri con il dito”
- *
- * FIX BUG CARD:
- * - rende visibile SOLO la card del pannello corrente
- *
- * ASSET (public/):
- * - fonts/: Spin Cycle Regular.ttf | CELTG___.TTF | candara.ttf
- * - img/: hero.jpg, profilo.jpg, 01..05.jpg
+ * Fix chiave:
+ * - I font NON devono usare url("fonts/...") nel CSS estratto (finirebbe sotto /_astro/ => 404).
+ * - Qui gli @font-face vengono iniettati con URL assolute basate su BASE_URL.
  */
 
 const year = new Date().getFullYear();
 
-// Base URL (GitHub Pages: /campo_del_cuore/)
-const baseHref = import.meta.env.BASE_URL.endsWith('/')
+const baseHref = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
-  : import.meta.env.BASE_URL + '/';
+  : import.meta.env.BASE_URL + "/";
 
-// helper: costruisce URL “assoluti” con base corretta
-const u = (p) => baseHref + p.replace(/^\/+/, '');
+const u = (p: string): string => baseHref + p.replace(/^\/+/, "");
 
+// asset
+const profileImg = u("img/profilo.jpg");
+
+// fonts (public/fonts)
+const spinFontUrl = u("fonts/Spin%20Cycle%20Regular.ttf");
+const celtFontUrl = u("fonts/CELTG___.TTF");
+const candFontUrl = u("fonts/candara.ttf");
+
+// @font-face con URL assolute (così non dipendono dal path del CSS estratto)
+const fontFaceCSS = `
+@font-face{
+  font-family:"SpinCycle";
+  src:url("${spinFontUrl}") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:"CelticGaramond";
+  src:url("${celtFontUrl}") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Candara";
+  src:url("${candFontUrl}") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+`;
+
+// contenuti
 const sections = [
   {
     title: "Il Campo",
@@ -89,29 +105,45 @@ Accanto al mazzo, sta arrivando il Manuale esteso con schede pratiche (Durata-Po
 ];
 
 const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
+
+// link interni (con slash finale)
+const hrefHome = baseHref;
+const hrefChi = u("chi-sono/");
+const hrefVideo = u("video/");
+const hrefCornice = u("cornice/");
 ---
 
+<!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
     <base href={baseHref} />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Il Campo del Cuore</title>
+
+    <!-- Preload font (opzionale ma utile) -->
+    <link rel="preload" href={spinFontUrl} as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href={celtFontUrl} as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href={candFontUrl} as="font" type="font/ttf" crossorigin />
+
+    <!-- @font-face con URL assolute -->
+    <style is:global set:html={fontFaceCSS}></style>
   </head>
 
   <body>
     <header class="topbar">
-      <a class="brand" href="">Il Campo del Cuore</a>
+      <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
+
       <nav class="nav">
         <img
-          src={u("img/profilo.jpg")}
+          src={profileImg}
           alt=""
           width="40"
           height="53"
           style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
         />
-        <a href="chi-sono">Chi Sono</a>
-        <a href="video">Galleria Video</a>
+        <a href={hrefChi}>Chi Sono</a>
+        <a href={hrefVideo}>Galleria Video</a>
       </nav>
     </header>
 
@@ -119,7 +151,7 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
       <!-- BACKGROUND SLIDES GLOBALI -->
       <div class="bgLayer" aria-hidden="true">
         {bgUrls.map((url, i) => (
-          <div class="bgSlide" data-idx={i} style={`background-image:url("${url}")`}></div>
+          <div class="bgSlide" data-idx={i} style={`background-image:url('${url}')`}></div>
         ))}
         <div class="bgShade"></div>
         <div class="bgVeil" id="bgVeil"></div>
@@ -132,8 +164,8 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
           <p>Una pagina che si legge scorrendo. Una storia che si arricchisce, senza trattenere dati.</p>
 
           <div class="cta">
-            <a class="btn btnPrimary" href="video" role="button">Guarda il video introduttivo</a>
-            <a class="btn btnGhost" href="cornice" role="button">Leggi la cornice</a>
+            <a class="btn btnPrimary" href={hrefVideo} role="button">Guarda il video introduttivo</a>
+            <a class="btn btnGhost" href={hrefCornice} role="button">Leggi la cornice</a>
           </div>
 
           <div class="scrollHint" aria-hidden="true">
@@ -186,7 +218,7 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
         const veilEl = document.getElementById("bgVeil");
 
         const panelEls = Array.from(document.querySelectorAll(".panel"));
-        const slideEls = Array.from(document.querySelectorAll(".bgSlide"));
+        const slideEls = Array.from(document.querySelectorAll(".bgSlide")); // 0=hero, 1=01, ...
 
         function clamp01(x){ return Math.max(0, Math.min(1, x)); }
 
@@ -199,7 +231,7 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
         // preload immagini
         slideEls.forEach((s) => {
           const bg = s.style.backgroundImage;
-          const m = bg && bg.match(/url\\(["']?(.*?)["']?\\)/);
+          const m = bg && bg.match(/url\(["']?(.*?)["']?\)/);
           const url = m && m[1];
           if (!url) return;
           const img = new Image();
@@ -215,19 +247,23 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
         function setCrossfade(a, b, t){
           const ta = (1 - t).toFixed(3);
           const tb = (t).toFixed(3);
-          for (let i = 0; i < slideEls.length; i++) slideEls[i].style.opacity = "0";
+          for (let i = 0; i < slideEls.length; i++){
+            slideEls[i].style.opacity = "0";
+          }
           if (slideEls[a]) slideEls[a].style.opacity = ta;
           if (slideEls[b]) slideEls[b].style.opacity = tb;
         }
 
         const ACTIVE_MARKER = 0.32;
         const BAR_MARKER    = 0.70;
-        const SWITCH_AT     = 0.80;
-        const FADE_BAND     = 0.18;
+
+        const SWITCH_AT  = 0.80;
+        const FADE_BAND  = 0.18;
 
         function getState(){
           const tbH = measureTopbar();
           const usable = Math.max(1, window.innerHeight - tbH);
+
           const activeY = tbH + usable * ACTIVE_MARKER;
           const barY    = tbH + usable * BAR_MARKER;
 
@@ -245,7 +281,7 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
               return { current, progSwitch, progBar };
             }
 
-            if (r.top < activeY){
+            if (r.top < activeY) {
               current = i;
               progSwitch = 1;
               progBar = 1;
@@ -303,7 +339,6 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
 
         function onScroll(){
           const state = getState();
-
           setCurrentPanel(state.current);
           updateProgress(state);
 
@@ -311,10 +346,8 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
 
           if (t01 < 1){
             setCrossfade(0, 1, t01);
-
             const veil = Math.sin(Math.PI * t01) * 0.55;
             if (veilEl) veilEl.style.opacity = veil.toFixed(3);
-
             updateCardFade(state.current, 0);
             return;
           }
@@ -351,34 +384,10 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
         --templateOverlap: 34vh;
 
         --chakraGreen: rgba(150, 255, 190, 0.18);
-
         --softWhite: rgba(255,255,255,0.92);
         --ghostWhite: rgba(255,255,255,0.16);
 
         --paperTint: rgba(239, 204, 202, 0.22);
-      }
-
-      /* ===== FONTS (public/fonts) ===== */
-      @font-face{
-        font-family: "SpinCycle";
-        src: url("fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face{
-        font-family: "CelticGaramond";
-        src: url("fonts/CELTG___.TTF") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-      @font-face{
-        font-family: "Candara";
-        src: url("fonts/candara.ttf") format("truetype");
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
       }
 
       body{
@@ -624,7 +633,6 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
         padding-bottom: 1vh;
       }
 
-      /* SOLO card corrente */
       .panelCard{
         position: sticky;
         top: var(--topbarH, 64px);
