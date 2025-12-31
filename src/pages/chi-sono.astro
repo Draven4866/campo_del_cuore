@@ -1,58 +1,19 @@
 ---
-/**
- * CHI-SONO — Il Campo del Cuore
- *
- * Fix chiave:
- * - @font-face iniettati con URL assolute basate su BASE_URL (no /_astro/fonts 404)
- */
-
-const year = new Date().getFullYear();
-
-const baseHref = import.meta.env.BASE_URL.endsWith("/")
+const baseHref = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
-  : import.meta.env.BASE_URL + "/";
+  : import.meta.env.BASE_URL + '/';
 
-const u = (p: string): string => baseHref + p.replace(/^\/+/, "");
+const u = (p: string): string => baseHref + p.replace(/^\/+/, '');
 
-// link interni
+// Link interni
 const hrefHome = baseHref;
-const hrefChi = u("chi-sono/");
-const hrefVideo = u("video/");
-const hrefCornice = u("cornice/");
+const hrefChi = u('chi-sono/');
+const hrefVideo = u('video/');
+const hrefCornice = u('cornice/');
 
-// asset
-const profilImg = u("img/profilo.jpg");
-const bkg = u("img/chi-sono_bkg.jpg");
-
-// fonts (public/fonts)
-const spinFontUrl = u("fonts/Spin%20Cycle%20Regular.ttf");
-const celtFontUrl = u("fonts/CELTG___.TTF");
-const candFontUrl = u("fonts/candara.ttf");
-
-// @font-face con URL assolute
-const fontFaceCSS = `
-@font-face{
-  font-family:"SpinCycle";
-  src:url("${spinFontUrl}") format("truetype");
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-@font-face{
-  font-family:"CelticGaramond";
-  src:url("${celtFontUrl}") format("truetype");
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-@font-face{
-  font-family:"Candara";
-  src:url("${candFontUrl}") format("truetype");
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-`;
+// Asset
+const profilImg = u('img/profilo.jpg');
+const bkgUrl = u('img/chi-sono_bkg.jpg');
 ---
 
 <!doctype html>
@@ -62,17 +23,10 @@ const fontFaceCSS = `
     <base href={baseHref} />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Chi sono — Il Campo del Cuore</title>
-
-    <!-- Preload font -->
-    <link rel="preload" href={spinFontUrl} as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href={celtFontUrl} as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href={candFontUrl} as="font" type="font/ttf" crossorigin />
-
-    <!-- @font-face con URL assolute -->
-    <style is:global set:html={fontFaceCSS}></style>
   </head>
 
-  <body style={`--bkg: ${bkg};`}>
+  <!-- ✅ FIX SFONDO: variabile CSS valorizzata INLINE (niente {bkgUrl} nel CSS estratto) -->
+  <body style={`--bkg: url('${bkgUrl}');`}>
     <header class="topbar">
       <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
       <nav class="nav">
@@ -177,8 +131,13 @@ const fontFaceCSS = `
     </main>
 
     <footer class="footer">
-      <small>© {year} Il Campo del Cuore</small>
+      <small>© <span id="y"></span> Il Campo del Cuore</small>
     </footer>
+
+    <script>
+      const y = document.getElementById('y');
+      if (y) y.textContent = String(new Date().getFullYear());
+    </script>
 
     <style>
       :root{
@@ -186,8 +145,30 @@ const fontFaceCSS = `
         --ghostWhite: rgba(255,255,255,0.16);
       }
 
+      /* ===== FONTS (public/fonts) ===== */
+      @font-face{
+        font-family: "SpinCycle";
+        src: url("fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "CelticGaramond";
+        src: url("fonts/CELTG___.TTF") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "Candara";
+        src: url("fonts/candara.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       *{ box-sizing:border-box; }
-      a{ color:inherit; text-decoration:none; }
 
       body{
         margin:0;
@@ -195,8 +176,8 @@ const fontFaceCSS = `
         font-family:"Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
         line-height:1.5;
 
-        background-color:#000;
-        background-image: url(var(--bkg));
+        background-color:#000; /* fallback */
+        background-image: var(--bkg); /* ✅ prende da style inline sul body */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -216,6 +197,8 @@ const fontFaceCSS = `
       }
 
       header, main, footer{ position: relative; z-index: 1; }
+
+      a{ color:inherit; text-decoration:none; }
 
       .topbar{
         position:sticky; top:0; z-index:60;
