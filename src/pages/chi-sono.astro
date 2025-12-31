@@ -1,27 +1,28 @@
 ---
-const BASE = import.meta.env.BASE_URL;
+const baseHref = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + "/";
 
-// Link interni (con base corretta per GitHub Pages in sottocartella)
-const hrefHome = BASE;
-const hrefChi = BASE + "chi-sono/";
-const hrefVideo = BASE + "video/";
-const hrefCornice = BASE + "cornice/";
+const u = (p: string): string => baseHref + p.replace(/^\/+/, "");
 
-// Asset (con base corretta)
-const profilImg = BASE + "img/profilo.jpg";
-const bkg = BASE + "img/chi-sono_bkg.jpg";
+// Link interni (relativi, con <base> che fa il lavoro sporco)
+const hrefHome = "";
+const hrefChi = "chi-sono";
+const hrefVideo = "video";
+const hrefCornice = "cornice";
 
-// Font (con base corretta)
-const spinFont = BASE + "fonts/Spin%20Cycle%20Regular.ttf";
-const celtFont = BASE + "fonts/CELTG___.TTF";
-const candFont = BASE + "fonts/candara.ttf";
+// Asset
+const profilImg = u("img/profilo.jpg");
+const bkg = u("img/chi-sono_bkg.jpg");
+
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
-    <base href={import.meta.env.BASE_URL} />
+    <base href={baseHref} />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Chi sono — Il Campo del Cuore</title>
   </head>
@@ -49,13 +50,7 @@ const candFont = BASE + "fonts/candara.ttf";
       <section class="paper" aria-label="Contenuto">
         <article class="paperInner">
           <section class="floatWrap">
-            <img
-              class="profileImg"
-              src={profilImg}
-              alt=""
-              width="200"
-              height="250"
-            />
+            <img class="profileImg" src={profilImg} alt="" width="200" height="250" />
 
             <h2 class="h2First">Identità e postura</h2>
             <p>
@@ -137,37 +132,33 @@ const candFont = BASE + "fonts/candara.ttf";
     </main>
 
     <footer class="footer">
-      <small>© <span id="y"></span> Il Campo del Cuore</small>
+      <small>© {year} Il Campo del Cuore</small>
     </footer>
 
-    <script>
-      const y = document.getElementById('y');
-      if (y) y.textContent = String(new Date().getFullYear());
-    </script>
-
-    <style define:vars={{ bkg, spinFont, celtFont, candFont }}>
+    <style>
       :root{
         --chakraGreen: rgba(150, 255, 190, 0.18);
         --ghostWhite: rgba(255,255,255,0.16);
       }
 
+      /* ===== FONTS (public/fonts) ===== */
       @font-face{
         font-family: "SpinCycle";
-        src: url(var(--spinFont)) format("truetype");
+        src: url("fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face{
         font-family: "CelticGaramond";
-        src: url(var(--celtFont)) format("truetype");
+        src: url("fonts/CELTG___.TTF") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face{
         font-family: "Candara";
-        src: url(var(--candFont)) format("truetype");
+        src: url("fonts/candara.ttf") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -182,7 +173,7 @@ const candFont = BASE + "fonts/candara.ttf";
         line-height:1.5;
 
         background-color:#000;
-        background-image: url(var(--bkg));
+        background-image: url("${bkg}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -353,6 +344,7 @@ const candFont = BASE + "fonts/candara.ttf";
         .paperInner{ padding: 20px 16px 24px; }
         .paperInner h2{ font-size:24px; }
         .paperInner p{ font-size:17px; }
+        .profileImg{ float:none; margin:0 auto 14px; }
       }
     </style>
   </body>

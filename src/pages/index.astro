@@ -11,31 +11,33 @@
  * - card sticky attaccata al TOP
  * - testo “foglio”: riquadro (panelPaper) sotto la card, centrato + giustificato
  *
- * SCROLL HINT (variante elegante):
+ * SCROLL HINT:
  * - desktop: “Scorri”
  * - mobile: “Scorri con il dito”
  *
  * FIX BUG CARD:
- * - rende visibile SOLO la card del pannello corrente (evita “sparisce → riappare → collide”)
+ * - rende visibile SOLO la card del pannello corrente
  *
- * FONTS: /public/fonts
- * - Titoli: Spin Cycle Regular.ttf
- * - Sottotitoli/Menu: CELTG___.TTF
- * - Testo: candara.ttf
+ * ASSET (public/):
+ * - fonts/: Spin Cycle Regular.ttf | CELTG___.TTF | candara.ttf
+ * - img/: hero.jpg, profilo.jpg, 01..05.jpg
  */
 
 const year = new Date().getFullYear();
 
+// Base URL (GitHub Pages: /campo_del_cuore/)
 const baseHref = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : import.meta.env.BASE_URL + '/';
+
+// helper: costruisce URL “assoluti” con base corretta
+const u = (p) => baseHref + p.replace(/^\/+/, '');
 
 const sections = [
   {
     title: "Il Campo",
     subtitle: "Una mappa pratica per leggere ciò che ti attraversa.",
-    bg: import.meta.env.BASE_URL + "img/01.jpg",
-
+    bg: u("img/01.jpg"),
     body: `Il Campo non è un’idea astratta e non è “psicologia” nel senso classico: è il modo in cui la tua esperienza prende forma, minuto per minuto, dentro e fuori di te. È un insieme di segnali - fisici, emotivi, mentali - che si intrecciano e ti dicono come stai davvero, prima ancora che tu riesca a spiegartelo. Il Campo non giudica: registra. Non ti chiede di essere diverso: ti chiede di ascoltare meglio.
 
 Quando dici “oggi sono scarico”, “sono agitato”, “mi sento chiuso”, stai già descrivendo il Campo, ma lo fai con parole generiche. Qui impari a renderlo leggibile: a distinguere un semplice calo di energia da una reazione, un’ansia da un allarme reale, una tristezza da un nodo antico che chiede attenzione.
@@ -47,7 +49,7 @@ In questa prospettiva, la trasformazione non nasce dalla forza di volontà, ma d
   {
     title: "Metafore",
     subtitle: "Oceano, musica, risonanza: capire senza saturare.",
-    bg: import.meta.env.BASE_URL + "img/02.jpg",
+    bg: u("img/02.jpg"),
     body: `Per parlare del Campo senza ingabbiarlo in teoria, usiamo immagini che lo rendono immediatamente percepibile. La prima è l’oceano: ogni evento è una goccia che cade sulla superficie e crea onde. Alcune si spengono, altre si sommano, altre ancora urtano zone profonde e diventano mare mosso. Il Campo è l’interferenza continua di queste onde: ciò che senti quando il mondo ti tocca.
 
 La seconda metafora è la musica. Ognuno di noi, anche senza accorgersene, emette un tema: una melodia personale fatta di ritmo, intensità, pause, armoniche. Quella melodia è il tuo Campo quando è in coerenza: ha un timbro riconoscibile, una firma. Ma mentre la suoni, incontri altre melodie. A volte si accordano e ti amplificano. A volte si sovrappongono e nasce la dissonanza: una nota storta, un urto, una vibrazione che ti sposta.
@@ -59,7 +61,7 @@ Nel Silmarillion, Ilúvatar dà un tema agli Ainur: improvvisare su una base com
   {
     title: "Metodo",
     subtitle: "Cornice breve, pratica breve, osservazione, gesto simbolico.",
-    bg: import.meta.env.BASE_URL + "img/03.jpg",
+    bg: u("img/03.jpg"),
     body: `Il metodo è volutamente essenziale. Non ti chiede ore di pratica, né discipline rigide. Ti chiede una cosa sola: rendere l’esperienza leggibile giorno dopo giorno finché diventa naturale.
 
 Ogni unità del percorso è costruita in quattro movimenti. Primo: una cornice breve che introduce un tema con parole semplici e immagini chiare. Secondo: una pratica di pochi minuti fatta di ascolto e di domande giuste, non per analizzarti, ma per sentire cosa è vivo. Terzo: un tempo di osservazione durante la giornata. Qui avviene la parte più importante: non fare, ma accorgerti. Noti quando il Campo si chiude, cosa lo apre, cosa lo disturba, cosa lo calma. Quarto: un gesto simbolico, piccolo e concreto, che fissa la comprensione in una traccia reale.
@@ -73,20 +75,20 @@ L’obiettivo non è stare sempre bene. L’obiettivo è avere strumenti quando 
   {
     title: "Autore",
     subtitle: "Chi sono e perché ho scritto questo percorso.",
-    bg: import.meta.env.BASE_URL + "img/04.jpg",
+    bg: u("img/04.jpg"),
     body: `Raffaele (Rovereto, 1984) è uno scrittore con formazione in Tecniche Artistiche dello Spettacolo (Ca’ Foscari Venezia). Dopo un’esperienza musicale internazionale culminata in un debut album pubblicato nel 2012, torna alla scrittura e si forma nel Master della Scuola Palomar patrocinato dell'agenzia letteraria di Vicki Satlow. Negli ultimi anni sviluppa il concetto di “Campo Emozionale”, traducendo esperienza e ricerca in pratiche sobrie: integra lavoro di gruppo in FucinAlchemica, radicamento presso Raidho Healing Horses e percorso interiore con Orion Multi Dimensional, ancorando la parte applicativa anche a neuroscienze e a una cornice sulle strutture della coscienza (Jean Gebser).`,
   },
   {
     title: "In arrivo",
     subtitle: "Manuale e mazzo: materiali che completano la soglia.",
-    bg: import.meta.env.BASE_URL + "img/05.jpg",
+    bg: u("img/05.jpg"),
     body: `Prima di tutto: il Mazzo dei Tarot del Campo Emozionale è uno strumento di indagine profonda del Sé. Comprende 22 Arcani; a ciascuno sono associati 9 vocaboli-archetipo (neutri, di luce o d’ombra) che costituiscono una base caratteriale ordinata. Il lavoro è semplice: ti centri sulla domanda, lasci emergere l’Arcano collegato (uno o più), poi leggi i suoi vocaboli come una costellazione di atteggiamenti. Così individui blocchi, mancanze o flussi attivi, ma anche virtù che chiedono riconoscimento. La combinazione Arcano+Vocaboli diventa linguaggio: quasi una frase che porta il messaggio in chiaro - ciò che, ora, ha qualcosa da dire.
 
 Accanto al mazzo, sta arrivando il Manuale esteso con schede pratiche (Durata-Postura-Focus-Obiettivo), protocolli di lettura, criteri di verifica (“più aria/meno aria”) e spazio per il log personale... Tutto resta sobrio, modulare, verificabile: pochi strumenti, molta chiarezza. Obiettivo: offrirti maniglie pratiche per passare dalla domanda alla next-action, dall’urto all’informazione, dal concetto alla presa di realtà.`,
   },
 ];
 
-const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) => s.bg)];
+const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
 ---
 
 <html lang="it">
@@ -102,22 +104,22 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
       <a class="brand" href="">Il Campo del Cuore</a>
       <nav class="nav">
         <img
-          src={import.meta.env.BASE_URL + "img/profilo.jpg"}
+          src={u("img/profilo.jpg")}
           alt=""
           width="40"
           height="53"
           style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
-        >
+        />
         <a href="chi-sono">Chi Sono</a>
         <a href="video">Galleria Video</a>
       </nav>
     </header>
 
     <main>
-      <!-- BACKGROUND SLIDES GLOBALI (coprono template + story) -->
+      <!-- BACKGROUND SLIDES GLOBALI -->
       <div class="bgLayer" aria-hidden="true">
-        {bgUrls.map((u, i) => (
-          <div class="bgSlide" data-idx={i} style={`background-image:url('${u}')`}></div>
+        {bgUrls.map((url, i) => (
+          <div class="bgSlide" data-idx={i} style={`background-image:url("${url}")`}></div>
         ))}
         <div class="bgShade"></div>
         <div class="bgVeil" id="bgVeil"></div>
@@ -134,7 +136,6 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
             <a class="btn btnGhost" href="cornice" role="button">Leggi la cornice</a>
           </div>
 
-          <!-- SCROLL HINT -->
           <div class="scrollHint" aria-hidden="true">
             <span class="scrollHintText">
               <span class="hintDesktop">Scorri</span>
@@ -185,7 +186,7 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
         const veilEl = document.getElementById("bgVeil");
 
         const panelEls = Array.from(document.querySelectorAll(".panel"));
-        const slideEls = Array.from(document.querySelectorAll(".bgSlide")); // 0=hero, 1=01, 2=02, ...
+        const slideEls = Array.from(document.querySelectorAll(".bgSlide"));
 
         function clamp01(x){ return Math.max(0, Math.min(1, x)); }
 
@@ -198,41 +199,35 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
         // preload immagini
         slideEls.forEach((s) => {
           const bg = s.style.backgroundImage;
-          const m = bg && bg.match(/url\(["']?(.*?)["']?\)/);
+          const m = bg && bg.match(/url\\(["']?(.*?)["']?\\)/);
           const url = m && m[1];
           if (!url) return;
           const img = new Image();
           img.src = url;
         });
 
-        // opacità manuale (crossfade)
         function setSingle(idx){
           for (let i = 0; i < slideEls.length; i++){
             slideEls[i].style.opacity = (i === idx) ? "1" : "0";
           }
         }
+
         function setCrossfade(a, b, t){
           const ta = (1 - t).toFixed(3);
           const tb = (t).toFixed(3);
-          for (let i = 0; i < slideEls.length; i++){
-            slideEls[i].style.opacity = "0";
-          }
+          for (let i = 0; i < slideEls.length; i++) slideEls[i].style.opacity = "0";
           if (slideEls[a]) slideEls[a].style.opacity = ta;
           if (slideEls[b]) slideEls[b].style.opacity = tb;
         }
 
-        // state pannelli
         const ACTIVE_MARKER = 0.32;
         const BAR_MARKER    = 0.70;
-
-        // transizione tra pannelli
-        const SWITCH_AT  = 0.80;
-        const FADE_BAND  = 0.18;
+        const SWITCH_AT     = 0.80;
+        const FADE_BAND     = 0.18;
 
         function getState(){
           const tbH = measureTopbar();
           const usable = Math.max(1, window.innerHeight - tbH);
-
           const activeY = tbH + usable * ACTIVE_MARKER;
           const barY    = tbH + usable * BAR_MARKER;
 
@@ -250,7 +245,7 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
               return { current, progSwitch, progBar };
             }
 
-            if (r.top < activeY) {
+            if (r.top < activeY){
               current = i;
               progSwitch = 1;
               progBar = 1;
@@ -259,7 +254,6 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
           return { current, progSwitch, progBar };
         }
 
-        // mostra SOLO la card del pannello corrente
         function setCurrentPanel(idx){
           for (let i = 0; i < panelEls.length; i++){
             panelEls[i].classList.toggle("isCurrent", i === idx);
@@ -269,11 +263,7 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
         function updateCardFade(idx, tFade){
           const card = panelEls[idx]?.querySelector(".panelCard");
           if (!card) return;
-
-          // base
           card.style.opacity = "1";
-
-          // se stai passando al prossimo bg, svaniamo la card corrente
           if (tFade > 0){
             const alpha = clamp01(1 - tFade);
             card.style.opacity = alpha.toFixed(3);
@@ -294,7 +284,6 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
           });
         }
 
-        // HERO -> 01: parte prima, agganciata all'ingresso della prima card
         function heroTo01Progress(){
           if (!panelEls[0]) return 1;
 
@@ -315,18 +304,14 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
         function onScroll(){
           const state = getState();
 
-          // anti-riapparizione
           setCurrentPanel(state.current);
-
           updateProgress(state);
 
-          // HERO -> 01
           const t01 = heroTo01Progress();
 
           if (t01 < 1){
             setCrossfade(0, 1, t01);
 
-            // velo bianco: picco a metà transizione
             const veil = Math.sin(Math.PI * t01) * 0.55;
             if (veilEl) veilEl.style.opacity = veil.toFixed(3);
 
@@ -336,7 +321,6 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
 
           if (veilEl) veilEl.style.opacity = "0";
 
-          // STORY: slide index = panelIndex+1 (perché slide0 è hero)
           const i = state.current;
           const base = i + 1;
 
@@ -353,7 +337,6 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
           updateCardFade(i, tFade);
         }
 
-        // init
         setSingle(0);
         if (veilEl) veilEl.style.opacity = "0";
         onScroll();
@@ -367,14 +350,11 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
       :root{
         --templateOverlap: 34vh;
 
-        /* CTA primario */
         --chakraGreen: rgba(150, 255, 190, 0.18);
 
-        /* bianchi */
         --softWhite: rgba(255,255,255,0.92);
         --ghostWhite: rgba(255,255,255,0.16);
 
-        /* foglio sotto al pannello testo (tinta #efccca) */
         --paperTint: rgba(239, 204, 202, 0.22);
       }
 
@@ -699,7 +679,6 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
         justify-content:center;
       }
 
-      /* FOGLIO SOTTO (tinta #efccca in trasparenza) */
       .panelPaper{
         width:100%;
         max-width:72ch;

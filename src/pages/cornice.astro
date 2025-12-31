@@ -1,18 +1,42 @@
+---
+const year = new Date().getFullYear();
+
+const baseHref = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + "/";
+
+/** helper unico (GH Pages + sottocartella) */
+const u = (p: string): string => baseHref + p.replace(/^\/+/, "");
+
+// Link interni
+const hrefHome = baseHref;
+const hrefChi = u("chi-sono/");
+const hrefVideo = u("video/");
+
+// Asset
+const bkg = u("img/video-gallery_bkg.jpg");
+
+// Font (public/fonts)
+const spinFont = u("fonts/Spin%20Cycle%20Regular.ttf");
+const celtFont = u("fonts/CELTG___.TTF");
+const candFont = u("fonts/candara.ttf");
+---
+
 <!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
-    <base href={import.meta.env.BASE_URL} />
+    <base href={baseHref} />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Leggi la cornice — Il Campo del Cuore</title>
   </head>
 
   <body>
     <header class="topbar">
-      <a class="brand" href="">Il Campo del Cuore</a>
+      <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
       <nav class="nav">
-        <a href="chi-sono">Chi sono</a>
-        <a href="video">Galleria Video</a>
+        <a href={hrefChi}>Chi sono</a>
+        <a href={hrefVideo}>Galleria Video</a>
       </nav>
     </header>
 
@@ -75,31 +99,23 @@
           </p>
 
           <div class="ctaRow" role="navigation" aria-label="Azioni">
-            <a class="btn btnGhost" href="" role="button">Torna alla Home e scorri</a>
-            <a class="btn btnPrimary" href="video" role="button">Guarda il video introduttivo</a>
+            <a class="btn btnGhost" href={hrefHome} role="button">Torna alla Home e scorri</a>
+            <a class="btn btnPrimary" href={hrefVideo} role="button">Guarda il video introduttivo</a>
           </div>
         </article>
       </section>
     </main>
 
     <footer class="footer">
-      <small>© <span id="y"></span> Il Campo del Cuore</small>
+      <small>© {year} Il Campo del Cuore</small>
     </footer>
 
-    <script>
-      const y = document.getElementById('y');
-      if (y) y.textContent = String(new Date().getFullYear());
-    </script>
-
-    <style>
+    <style define:vars={{ bkg, spinFont, celtFont, candFont }}>
       :root{
         --chakraGreen: rgba(150, 255, 190, 0.18);
         --ghostWhite: rgba(255,255,255,0.16);
 
-        /* livello 2 (paperInner): più trasparente = abbassa questo valore */
         --paperBg: rgba(15,15,15,.30);
-
-        /* bordo e blur del vetro */
         --paperBorder: rgba(255,255,255,.22);
         --paperBlur: 14px;
       }
@@ -107,21 +123,21 @@
       /* ===== FONTS (public/fonts) ===== */
       @font-face{
         font-family: "SpinCycle";
-        src: url("fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
+        src: url(var(--spinFont)) format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face{
         font-family: "CelticGaramond";
-        src: url("fonts/CELTG___.TTF") format("truetype");
+        src: url(var(--celtFont)) format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face{
         font-family: "Candara";
-        src: url("fonts/candara.ttf") format("truetype");
+        src: url(var(--candFont)) format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -130,20 +146,34 @@
       *{ box-sizing:border-box; }
       a{ color:inherit; text-decoration:none; }
 
-      /* ===== BACKGROUND: nudo e crudo ===== */
       body{
         margin:0;
         color:#fff;
         font-family:"Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
         line-height:1.5;
 
-        background-color:#000; /* fallback */
-        background-image: url("${import.meta.env.BASE_URL}img/video-gallery_bkg.jpg");
+        background-color:#000;
+        background-image: url(var(--bkg));
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
+        position: relative;
       }
+
+      /* velo per leggibilità */
+      body::before{
+        content:"";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+          radial-gradient(80% 60% at 50% 0%, rgba(0,0,0,.18), rgba(0,0,0,.62)),
+          linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.70));
+      }
+
+      header, main, footer{ position: relative; z-index: 1; }
 
       /* TOPBAR */
       .topbar{
@@ -167,7 +197,7 @@
       }
       .nav a:hover{ opacity:1; }
 
-      /* HERO PAGE (solo un “cuscino” leggero per non perdere il titolo) */
+      /* HERO PAGE */
       .pageHero{
         position:relative;
         padding: 64px 22px 28px;
@@ -205,9 +235,7 @@
       }
 
       /* PAPER */
-      .paper{
-        padding: 26px 22px 72px;
-      }
+      .paper{ padding: 26px 22px 72px; }
       .paperInner{
         max-width: 900px;
         margin: 0 auto;
