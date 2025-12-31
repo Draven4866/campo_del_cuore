@@ -1,58 +1,19 @@
 ---
-/**
- * CHI-SONO — Il Campo del Cuore
- *
- * Fix chiave:
- * - @font-face con URL assolute (BASE_URL) => niente 404 da CSS estratto in /_astro/
- * - background-image usa URL assoluta (BASE_URL)
- */
-
-const year = new Date().getFullYear();
-
-const baseHref = import.meta.env.BASE_URL.endsWith("/")
+const baseHref = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
-  : import.meta.env.BASE_URL + "/";
+  : import.meta.env.BASE_URL + '/';
 
-const u = (p: string): string => baseHref + p.replace(/^\/+/, "");
+const u = (p: string): string => baseHref + p.replace(/^\/+/, '');
 
-// link interni (con slash finale)
+// Link interni
 const hrefHome = baseHref;
-const hrefChi = u("chi-sono/");
-const hrefVideo = u("video/");
-const hrefCornice = u("cornice/");
+const hrefChi = u('chi-sono/');
+const hrefVideo = u('video/');
+const hrefCornice = u('cornice/');
 
-// asset
-const profilImg = u("img/profilo.jpg");
-const bkgUrl = u("img/chi-sono_bkg.jpg");
-
-// fonts (public/fonts)
-const spinFontUrl = u("fonts/Spin%20Cycle%20Regular.ttf");
-const celtFontUrl = u("fonts/CELTG___.TTF");
-const candFontUrl = u("fonts/candara.ttf");
-
-const fontFaceCSS = `
-@font-face{
-  font-family:"SpinCycle";
-  src:url("${spinFontUrl}") format("truetype");
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-@font-face{
-  font-family:"CelticGaramond";
-  src:url("${celtFontUrl}") format("truetype");
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-@font-face{
-  font-family:"Candara";
-  src:url("${candFontUrl}") format("truetype");
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-`;
+// Asset
+const profilImg = u('img/profilo.jpg');
+const bkgUrl = u('img/chi-sono_bkg.jpg');
 ---
 
 <!doctype html>
@@ -62,15 +23,10 @@ const fontFaceCSS = `
     <base href={baseHref} />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Chi sono — Il Campo del Cuore</title>
-
-    <link rel="preload" href={spinFontUrl} as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href={celtFontUrl} as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href={candFontUrl} as="font" type="font/ttf" crossorigin />
-
-    <style is:global set:html={fontFaceCSS}></style>
   </head>
 
-  <body>
+  <!-- ✅ FIX SFONDO: variabile CSS valorizzata INLINE (niente {bkgUrl} nel CSS estratto) -->
+  <body style={`--bkg: url('${bkgUrl}');`}>
     <header class="topbar">
       <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
       <nav class="nav">
@@ -93,13 +49,7 @@ const fontFaceCSS = `
       <section class="paper" aria-label="Contenuto">
         <article class="paperInner">
           <section class="floatWrap">
-            <img
-              class="profileImg"
-              src={profilImg}
-              alt=""
-              width="200"
-              height="250"
-            />
+            <img class="profileImg" src={profilImg} alt="" width="200" height="250" />
 
             <h2 class="h2First">Identità e postura</h2>
             <p>
@@ -181,13 +131,41 @@ const fontFaceCSS = `
     </main>
 
     <footer class="footer">
-      <small>© {year} Il Campo del Cuore</small>
+      <small>© <span id="y"></span> Il Campo del Cuore</small>
     </footer>
+
+    <script>
+      const y = document.getElementById('y');
+      if (y) y.textContent = String(new Date().getFullYear());
+    </script>
 
     <style>
       :root{
         --chakraGreen: rgba(150, 255, 190, 0.18);
         --ghostWhite: rgba(255,255,255,0.16);
+      }
+
+      /* ===== FONTS (public/fonts) ===== */
+      @font-face{
+        font-family: "SpinCycle";
+        src: url("fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "CelticGaramond";
+        src: url("fonts/CELTG___.TTF") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "Candara";
+        src: url("fonts/candara.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
       }
 
       *{ box-sizing:border-box; }
@@ -198,8 +176,8 @@ const fontFaceCSS = `
         font-family:"Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
         line-height:1.5;
 
-        background-color:#000;
-        background-image: url("{bkgUrl}");
+        background-color:#000; /* fallback */
+        background-image: var(--bkg); /* ✅ prende da style inline sul body */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -349,27 +327,14 @@ const fontFaceCSS = `
         user-select:none;
         transition: transform .12s ease, filter .12s ease, background-color .12s ease;
       }
-      .btn:focus-visible{
-        outline: 2px solid rgba(255,255,255,.85);
-        outline-offset: 3px;
-      }
       .btnPrimary{
         background: var(--chakraGreen);
         color:#0b0b0b;
         border-color: rgba(0,0,0,.70);
       }
-      .btnPrimary:hover{
-        background: rgba(150,255,190,0.26);
-        filter: brightness(1.03);
-        transform: translateY(-1px);
-      }
       .btnGhost{
         background: var(--ghostWhite);
         color:#fff;
-      }
-      .btnGhost:hover{
-        background: rgba(255,255,255,0.24);
-        transform: translateY(-1px);
       }
 
       .footer{
