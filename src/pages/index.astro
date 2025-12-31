@@ -1,16 +1,764 @@
 ---
+/**
+ * TOP = topbar
+ * TEMPLATE = hero (hero.jpg)
+ *
+ * STORY:
+ * - slide bg: [0]=hero, [1]=01, [2]=02, [3]=03, [4]=04, [5]=05
+ * - transizioni morbide con crossfade
+ * - velo bianco (overlay) durante HERO -> 01 per mascherare lo “stacco”
+ * - la prima card (“Il Campo”) compare prima (circa metà template) via overlap controllato
+ * - card sticky attaccata al TOP
+ * - testo “foglio”: riquadro (panelPaper) sotto la card, centrato + giustificato
+ *
+ * SCROLL HINT (variante elegante):
+ * - desktop: “Scorri”
+ * - mobile: “Scorri con il dito”
+ *
+ * FIX BUG CARD:
+ * - rende visibile SOLO la card del pannello corrente (evita “sparisce → riappare → collide”)
+ *
+ * FONTS: /public/fonts
+ * - Titoli: Spin Cycle Regular.ttf
+ * - Sottotitoli/Menu: CELTG___.TTF
+ * - Testo: candara.ttf
+ */
 
+const year = new Date().getFullYear();
+
+const sections = [
+  {
+    title: "Il Campo",
+    subtitle: "Una mappa pratica per leggere ciò che ti attraversa.",
+    bg: "/img/01.jpg",
+    body: `Il Campo non è un’idea astratta e non è “psicologia” nel senso classico: è il modo in cui la tua esperienza prende forma, minuto per minuto, dentro e fuori di te. È un insieme di segnali - fisici, emotivi, mentali - che si intrecciano e ti dicono come stai davvero, prima ancora che tu riesca a spiegartelo. Il Campo non giudica: registra. Non ti chiede di essere diverso: ti chiede di ascoltare meglio.
+
+Quando dici “oggi sono scarico”, “sono agitato”, “mi sento chiuso”, stai già descrivendo il Campo, ma lo fai con parole generiche. Qui impari a renderlo leggibile: a distinguere un semplice calo di energia da una reazione, un’ansia da un allarme reale, una tristezza da un nodo antico che chiede attenzione.
+
+Il punto non è controllare le emozioni, né eliminarle. Il punto è riconoscere la loro funzione: le emozioni sono messaggeri, e spesso arrivano con un linguaggio simbolico. Se impari a leggere quel linguaggio, smetti di subirlo. Il Campo diventa una mappa: ti orienta nelle giornate difficili, ti fa capire dove stai spendendo energia, dove ti stai proteggendo, dove stai evitando.
+
+In questa prospettiva, la trasformazione non nasce dalla forza di volontà, ma dalla chiarezza. Quando vedi davvero cosa sta succedendo, la scelta diventa possibile.`,
+  },
+  {
+    title: "Metafore",
+    subtitle: "Oceano, musica, risonanza: capire senza saturare.",
+    bg: "/img/02.jpg",
+    body: `Per parlare del Campo senza ingabbiarlo in teoria, usiamo immagini che lo rendono immediatamente percepibile. La prima è l’oceano: ogni evento è una goccia che cade sulla superficie e crea onde. Alcune si spengono, altre si sommano, altre ancora urtano zone profonde e diventano mare mosso. Il Campo è l’interferenza continua di queste onde: ciò che senti quando il mondo ti tocca.
+
+La seconda metafora è la musica. Ognuno di noi, anche senza accorgersene, emette un tema: una melodia personale fatta di ritmo, intensità, pause, armoniche. Quella melodia è il tuo Campo quando è in coerenza: ha un timbro riconoscibile, una firma. Ma mentre la suoni, incontri altre melodie. A volte si accordano e ti amplificano. A volte si sovrappongono e nasce la dissonanza: una nota storta, un urto, una vibrazione che ti sposta.
+
+Qui la domanda non è “come elimino la dissonanza?”, ma: di chi è quella nota? È una nota tua - un punto che l’incontro ha fatto emergere - oppure è un attrito di sovrapposizione, un rumore che non ti appartiene? Se la nota è tua, è materiale di lavoro: va ascoltata finché torna a casa e si integra nel tema. Se non è tua, non devi forzarti a correggerti: devi riconoscere che la tua melodia è corretta, e che l’attrito sta nell’altro Campo o nella combinazione tra i due.
+
+Nel Silmarillion, Ilúvatar dà un tema agli Ainur: improvvisare su una base comune. Melkor tenta di imporre una melodia separata e produce dissonanza, distrazione, rottura. Eppure Ilúvatar rivela una legge più alta: anche ciò che appare deviazione rientra nel disegno della musica. Persino il gelo che ferisce l’oceano diventa neve che cade: triste, sì, ma anche meravigliosa. La lezione è questa: qualsiasi nota che emerge è sottesa al tema principale. E il tema principale, nel tuo lavoro, SEI TU, il Sé.`,
+  },
+  {
+    title: "Metodo",
+    subtitle: "Cornice breve, pratica breve, osservazione, gesto simbolico.",
+    bg: "/img/03.jpg",
+    body: `Il metodo è volutamente essenziale. Non ti chiede ore di pratica, né discipline rigide. Ti chiede una cosa sola: rendere l’esperienza leggibile giorno dopo giorno finché diventa naturale.
+
+Ogni unità del percorso è costruita in quattro movimenti. Primo: una cornice breve che introduce un tema con parole semplici e immagini chiare. Secondo: una pratica di pochi minuti fatta di ascolto e di domande giuste, non per analizzarti, ma per sentire cosa è vivo. Terzo: un tempo di osservazione durante la giornata. Qui avviene la parte più importante: non fare, ma accorgerti. Noti quando il Campo si chiude, cosa lo apre, cosa lo disturba, cosa lo calma. Quarto: un gesto simbolico, piccolo e concreto, che fissa la comprensione in una traccia reale.
+
+Questo metodo funziona perché non combatte le reazioni: le attraversa con precisione. Invece di inseguire la perfezione, costruisce continuità. Invece di cambiare tutto, cambia una cosa per volta.
+
+Col tempo, la pratica smette di essere un esercizio e diventa una postura: riconosci il segnale prima che diventi caos, distingui ciò che è tuo da ciò che stai assorbendo, recuperi energia dove prima la perdevi senza accorgertene.
+
+L’obiettivo non è stare sempre bene. L’obiettivo è avere strumenti quando non stai bene e lucidità quando stai bene, perché entrambe le condizioni possono insegnarti qualcosa.`,
+  },
+  {
+    title: "Autore",
+    subtitle: "Chi sono e perché ho scritto questo percorso.",
+    bg: "/img/04.jpg",
+    body: `Raffaele (Rovereto, 1984) è uno scrittore con formazione in Tecniche Artistiche dello Spettacolo (Ca’ Foscari Venezia). Dopo un’esperienza musicale internazionale culminata in un debut album pubblicato nel 2012, torna alla scrittura e si forma nel Master della Scuola Palomar patrocinato dell'agenzia letteraria di Vicki Satlow. Negli ultimi anni sviluppa il concetto di “Campo Emozionale”, traducendo esperienza e ricerca in pratiche sobrie: integra lavoro di gruppo in FucinAlchemica, radicamento presso Raidho Healing Horses e percorso interiore con Orion Multi Dimensional, ancorando la parte applicativa anche a neuroscienze e a una cornice sulle strutture della coscienza (Jean Gebser).`,
+  },
+  {
+    title: "In arrivo",
+    subtitle: "Manuale e mazzo: materiali che completano la soglia.",
+    bg: "/img/05.jpg",
+    body: `Prima di tutto: il Mazzo dei Tarot del Campo Emozionale è uno strumento di indagine profonda del Sé. Comprende 22 Arcani; a ciascuno sono associati 9 vocaboli-archetipo (neutri, di luce o d’ombra) che costituiscono una base caratteriale ordinata. Il lavoro è semplice: ti centri sulla domanda, lasci emergere l’Arcano collegato (uno o più), poi leggi i suoi vocaboli come una costellazione di atteggiamenti. Così individui blocchi, mancanze o flussi attivi, ma anche virtù che chiedono riconoscimento. La combinazione Arcano+Vocaboli diventa linguaggio: quasi una frase che porta il messaggio in chiaro - ciò che, ora, ha qualcosa da dire.
+
+Accanto al mazzo, sta arrivando il Manuale esteso con schede pratiche (Durata-Postura-Focus-Obiettivo), protocolli di lettura, criteri di verifica (“più aria/meno aria”) e spazio per il log personale... Tutto resta sobrio, modulare, verificabile: pochi strumenti, molta chiarezza. Obiettivo: offrirti maniglie pratiche per passare dalla domanda alla next-action, dall’urto all’informazione, dal concetto alla presa di realtà.`,
+  },
+];
+
+const bgUrls = ["/img/hero.jpg", ...sections.map((s) => s.bg)];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Il Campo del Cuore</title>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">Il Campo del Cuore</a>
+      <nav class="nav">
+        <img
+          src="/img/profilo.jpg"
+          alt=""
+          width="40"
+          height="53"
+          style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
+        >
+        <a href="/chi-sono">Chi Sono</a>
+        <a href="/video">Galleria Video</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- BACKGROUND SLIDES GLOBALI (coprono template + story) -->
+      <div class="bgLayer" aria-hidden="true">
+        {bgUrls.map((u, i) => (
+          <div class="bgSlide" data-idx={i} style={`background-image:url('${u}')`}></div>
+        ))}
+        <div class="bgShade"></div>
+        <div class="bgVeil" id="bgVeil"></div>
+      </div>
+
+      <!-- TEMPLATE (hero) -->
+      <section class="hero" id="hero">
+        <div class="hero-inner">
+          <h1>Il Campo del Cuore</h1>
+          <p>Una pagina che si legge scorrendo. Una storia che si arricchisce, senza trattenere dati.</p>
+
+          <div class="cta">
+            <a class="btn btnPrimary" href="/video" role="button">Guarda il video introduttivo</a>
+            <a class="btn btnGhost" href="/cornice" role="button">Leggi la cornice</a>
+          </div>
+
+          <!-- SCROLL HINT -->
+          <div class="scrollHint" aria-hidden="true">
+            <span class="scrollHintText">
+              <span class="hintDesktop">Scorri</span>
+              <span class="hintMobile">Scorri con il dito</span>
+            </span>
+            <span class="scrollHintArrow"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- STORY -->
+      <section class="storySlides" id="storySlides">
+        <div class="fgLayer">
+          {sections.map((s, i) => (
+            <section class="panel" data-i={i}>
+              <div class="panelCard">
+                <div class="cardInner">
+                  <h2 class="panelTitle">{s.title}</h2>
+                  <p class="panelSub">{s.subtitle}</p>
+                  <div class="progress" aria-hidden="true"><span class="progressFill"></span></div>
+                </div>
+              </div>
+
+              <div class="panelBody">
+                <div class="panelPaper">
+                  {s.body ? <p class="panelText">{s.body}</p> : <p class="panelText muted"> </p>}
+                </div>
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section class="closing">
+        <h2>Privacy by design</h2>
+        <p>Questa home è una porta: orienta, racconta, prepara. Non raccoglie né archivia dati personali.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>© {year} Il Campo del Cuore</small>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const topbarEl = document.querySelector(".topbar");
+        const veilEl = document.getElementById("bgVeil");
+
+        const panelEls = Array.from(document.querySelectorAll(".panel"));
+        const slideEls = Array.from(document.querySelectorAll(".bgSlide")); // 0=hero, 1=01, 2=02, ...
+
+        function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+        function measureTopbar(){
+          const h = topbarEl ? Math.round(topbarEl.getBoundingClientRect().height) : 0;
+          root.style.setProperty("--topbarH", h + "px");
+          return h;
+        }
+
+        // preload immagini
+        slideEls.forEach((s) => {
+          const bg = s.style.backgroundImage;
+          const m = bg && bg.match(/url\(["']?(.*?)["']?\)/);
+          const url = m && m[1];
+          if (!url) return;
+          const img = new Image();
+          img.src = url;
+        });
+
+        // opacità manuale (crossfade)
+        function setSingle(idx){
+          for (let i = 0; i < slideEls.length; i++){
+            slideEls[i].style.opacity = (i === idx) ? "1" : "0";
+          }
+        }
+        function setCrossfade(a, b, t){
+          const ta = (1 - t).toFixed(3);
+          const tb = (t).toFixed(3);
+          for (let i = 0; i < slideEls.length; i++){
+            slideEls[i].style.opacity = "0";
+          }
+          if (slideEls[a]) slideEls[a].style.opacity = ta;
+          if (slideEls[b]) slideEls[b].style.opacity = tb;
+        }
+
+        // state pannelli
+        const ACTIVE_MARKER = 0.32;
+        const BAR_MARKER    = 0.70;
+
+        // transizione tra pannelli
+        const SWITCH_AT  = 0.80;
+        const FADE_BAND  = 0.18;
+
+        function getState(){
+          const tbH = measureTopbar();
+          const usable = Math.max(1, window.innerHeight - tbH);
+
+          const activeY = tbH + usable * ACTIVE_MARKER;
+          const barY    = tbH + usable * BAR_MARKER;
+
+          let current = 0;
+          let progSwitch = 0;
+          let progBar = 0;
+
+          for (let i = 0; i < panelEls.length; i++){
+            const r = panelEls[i].getBoundingClientRect();
+
+            if (r.top <= activeY && r.bottom >= activeY){
+              current = i;
+              progSwitch = clamp01((activeY - r.top) / Math.max(1, r.height));
+              progBar    = clamp01((barY - r.top) / Math.max(1, r.height));
+              return { current, progSwitch, progBar };
+            }
+
+            if (r.top < activeY) {
+              current = i;
+              progSwitch = 1;
+              progBar = 1;
+            }
+          }
+          return { current, progSwitch, progBar };
+        }
+
+        // mostra SOLO la card del pannello corrente
+        function setCurrentPanel(idx){
+          for (let i = 0; i < panelEls.length; i++){
+            panelEls[i].classList.toggle("isCurrent", i === idx);
+          }
+        }
+
+        function updateCardFade(idx, tFade){
+          const card = panelEls[idx]?.querySelector(".panelCard");
+          if (!card) return;
+
+          // base
+          card.style.opacity = "1";
+
+          // se stai passando al prossimo bg, svaniamo la card corrente
+          if (tFade > 0){
+            const alpha = clamp01(1 - tFade);
+            card.style.opacity = alpha.toFixed(3);
+          }
+        }
+
+        function updateProgress(state){
+          panelEls.forEach((panel, i) => {
+            const fill = panel.querySelector(".progressFill");
+            if (!fill) return;
+
+            let p = 0;
+            if (i < state.current) p = 1;
+            else if (i > state.current) p = 0;
+            else p = state.progBar;
+
+            fill.style.width = (p * 100).toFixed(1) + "%";
+          });
+        }
+
+        // HERO -> 01: parte prima, agganciata all'ingresso della prima card
+        function heroTo01Progress(){
+          if (!panelEls[0]) return 1;
+
+          const tbH = measureTopbar();
+          const usable = Math.max(1, window.innerHeight - tbH);
+
+          const startY = tbH + usable * 0.92;
+          const endY   = tbH + usable * 0.55;
+
+          const top = panelEls[0].getBoundingClientRect().top;
+
+          if (top >= startY) return 0;
+          if (top <= endY) return 1;
+
+          return clamp01((startY - top) / Math.max(1, (startY - endY)));
+        }
+
+        function onScroll(){
+          const state = getState();
+
+          // anti-riapparizione
+          setCurrentPanel(state.current);
+
+          updateProgress(state);
+
+          // HERO -> 01
+          const t01 = heroTo01Progress();
+
+          if (t01 < 1){
+            setCrossfade(0, 1, t01);
+
+            // velo bianco: picco a metà transizione
+            const veil = Math.sin(Math.PI * t01) * 0.55;
+            if (veilEl) veilEl.style.opacity = veil.toFixed(3);
+
+            updateCardFade(state.current, 0);
+            return;
+          }
+
+          if (veilEl) veilEl.style.opacity = "0";
+
+          // STORY: slide index = panelIndex+1 (perché slide0 è hero)
+          const i = state.current;
+          const base = i + 1;
+
+          let tFade = 0;
+          const fadeStart = SWITCH_AT - FADE_BAND;
+
+          if (i < panelEls.length - 1 && state.progSwitch > fadeStart){
+            tFade = clamp01((state.progSwitch - fadeStart) / Math.max(0.001, FADE_BAND));
+            setCrossfade(base, base + 1, tFade);
+          } else {
+            setSingle(base);
+          }
+
+          updateCardFade(i, tFade);
+        }
+
+        // init
+        setSingle(0);
+        if (veilEl) veilEl.style.opacity = "0";
+        onScroll();
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+      })();
+    </script>
+
+    <style>
+      :root{
+        --templateOverlap: 34vh;
+
+        /* CTA primario */
+        --chakraGreen: rgba(150, 255, 190, 0.18);
+
+        /* bianchi */
+        --softWhite: rgba(255,255,255,0.92);
+        --ghostWhite: rgba(255,255,255,0.16);
+
+        /* foglio sotto al pannello testo (tinta #efccca) */
+        --paperTint: rgba(239, 204, 202, 0.22);
+      }
+
+      /* ===== FONTS (public/fonts) ===== */
+      @font-face{
+        font-family: "SpinCycle";
+        src: url("/fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "CelticGaramond";
+        src: url("/fonts/CELTG___.TTF") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "Candara";
+        src: url("/fonts/candara.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      body{
+        margin:0;
+        font-family: "Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        line-height:1.45;
+        background:#000;
+        color:#0b0b0b;
+      }
+      a{ color:inherit; text-decoration:none; }
+
+      .topbar{
+        position:sticky; top:0; z-index:60;
+        display:flex; justify-content:space-between; align-items:center;
+        padding:16px 22px;
+        backdrop-filter:saturate(180%) blur(10px);
+        background: rgba(210,235,255,.88);
+        border-bottom:1px solid rgba(0,0,0,.06);
+      }
+      .brand{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+      }
+      .nav a{
+        margin-left:14px;
+        opacity:.85;
+        font-family:"CelticGaramond","Candara",system-ui,serif;
+      }
+      .nav a:hover{ opacity:1; }
+
+      /* BACKGROUND GLOBAL */
+      .bgLayer{
+        position:fixed;
+        inset:0;
+        z-index:0;
+        overflow:hidden;
+        background:#000;
+        pointer-events:none;
+      }
+      .bgSlide{
+        position:absolute;
+        inset:0;
+        background-size:cover;
+        background-position:center;
+        opacity:0;
+        transition: opacity .55s ease;
+        transform: scale(1.02);
+        will-change: opacity;
+      }
+      .bgShade{
+        position:absolute; inset:0;
+        background: linear-gradient(to bottom, rgba(0,0,0,.22), rgba(0,0,0,.60));
+      }
+      .bgVeil{
+        position:absolute; inset:0;
+        background: rgba(255,255,255,1);
+        opacity:0;
+        transition: opacity .15s linear;
+        mix-blend-mode: screen;
+      }
+
+      main{ position:relative; z-index:10; }
+
+      /* HERO */
+      .hero{
+        position:relative;
+        min-height: calc(68vh + var(--templateOverlap));
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding: 0 22px;
+        color:#fff;
+        text-align:center;
+      }
+      .hero::before{
+        content:"";
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background: radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.22), rgba(0,0,0,.45));
+        z-index:1;
+      }
+
+      .hero-inner{
+        position:relative;
+        z-index:2;
+        max-width: 900px;
+        width: 100%;
+        min-height: 68vh;
+        padding: 80px 0 48px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+      }
+
+      .hero h1{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+        font-size: clamp(34px, 5vw, 64px);
+        margin:0 0 10px;
+        color:#fff !important;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+      .hero p{
+        font-family:"CelticGaramond","Candara",system-ui,serif;
+        margin:0 0 18px;
+        opacity:.95;
+        max-width:65ch;
+        font-size:18px;
+        color: rgba(255,255,255,.95) !important;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+
+      .cta{
+        display:flex;
+        gap:14px;
+        align-items:center;
+        justify-content:center;
+        flex-wrap:wrap;
+        margin-top:14px;
+      }
+
+      .btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-family: "CelticGaramond","Candara",system-ui,serif;
+        font-weight: 600;
+        line-height: 1;
+        border: 1px solid rgba(0,0,0,.70);
+        backdrop-filter: blur(8px);
+        cursor:pointer;
+        pointer-events:auto;
+        user-select:none;
+        transition: transform .12s ease, filter .12s ease, background-color .12s ease;
+      }
+      .btn:focus-visible{
+        outline: 2px solid rgba(255,255,255,.85);
+        outline-offset: 3px;
+      }
+
+      .btnPrimary{
+        background: var(--chakraGreen);
+        color:#0b0b0b !important;
+      }
+      .btnPrimary:hover{
+        background: rgba(150,255,190,0.26);
+        filter: brightness(1.03);
+        transform: translateY(-1px);
+      }
+
+      .btnGhost{
+        background: var(--ghostWhite);
+        color:#fff !important;
+        border-color: rgba(255,255,255,.70);
+      }
+      .btnGhost:hover{
+        background: rgba(255,255,255,0.24);
+        transform: translateY(-1px);
+      }
+
+      /* SCROLL HINT */
+      .scrollHint{
+        margin-top: 30px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:10px;
+        opacity:.92;
+        user-select:none;
+        pointer-events:none;
+      }
+
+      .scrollHintText{
+        font-family:"CelticGaramond","Candara",system-ui,serif;
+        font-size: 10px;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.90);
+        text-shadow: 0 2px 16px rgba(0,0,0,.55);
+      }
+
+      .hintMobile{ display:none; }
+      .hintDesktop{ display:inline; }
+
+      @media (max-width: 720px){
+        .hintDesktop{ display:none; }
+        .hintMobile{ display:inline; }
+      }
+
+      .scrollHintArrow{
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.55);
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(8px);
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,.22);
+        animation: hintFloat 1.7s ease-in-out infinite;
+      }
+
+      .scrollHintArrow::before{
+        content:"";
+        position:absolute;
+        left:50%;
+        top:50%;
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid rgba(255,255,255,.92);
+        border-bottom: 2px solid rgba(255,255,255,.92);
+        transform: translate(-50%,-60%) rotate(45deg);
+        filter: drop-shadow(0 2px 10px rgba(0,0,0,.45));
+      }
+
+      @keyframes hintFloat{
+        0%   { transform: translateY(0); opacity: .85; }
+        50%  { transform: translateY(8px); opacity: 1; }
+        100% { transform: translateY(0); opacity: .85; }
+      }
+
+      /* STORY overlap */
+      .storySlides{
+        margin-top: calc(-1 * var(--templateOverlap));
+        padding-top: var(--templateOverlap);
+        position:relative;
+      }
+
+      .fgLayer{
+        position:relative;
+        z-index:10;
+        max-width:900px;
+        margin:0 auto;
+        padding: 0 22px 60px;
+      }
+
+      .panel{
+        min-height: 88vh;
+        padding-top: 3vh;
+        padding-bottom: 1vh;
+      }
+
+      /* SOLO card corrente */
+      .panelCard{
+        position: sticky;
+        top: var(--topbarH, 64px);
+        z-index:20;
+        background: rgba(119, 194, 99, 0.82);
+        backdrop-filter: blur(12px) saturate(160%);
+        border: 1px solid rgba(255,255,255,.60);
+        border-radius: 18px;
+        box-shadow: 0 18px 55px rgba(0,0,0,.22);
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .16s linear;
+      }
+      .panel.isCurrent .panelCard{
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .cardInner{ padding:16px 18px 12px; }
+
+      .panelTitle{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+        margin:0 0 6px;
+        font-size:28px;
+        color:#0b0b0b;
+      }
+      .panelSub{
+        font-family:"CelticGaramond","Candara",system-ui,serif;
+        margin:0 0 12px;
+        opacity:.88;
+        color:#0b0b0b;
+        max-width:75ch;
+      }
+
+      .progress{
+        height:6px;
+        background: rgba(0,0,0,.12);
+        overflow:hidden;
+        border-radius:999px;
+      }
+      .progressFill{
+        display:block; height:100%; width:0%;
+        background: rgba(0,0,0,.65);
+        transition: width .12s linear;
+      }
+
+      .panelBody{
+        padding-top:12px;
+        display:flex;
+        justify-content:center;
+      }
+
+      /* FOGLIO SOTTO (tinta #efccca in trasparenza) */
+      .panelPaper{
+        width:100%;
+        max-width:72ch;
+        padding: 16px 16px 18px;
+        margin: 0 12px;
+
+        border-radius: 18px;
+        background: var(--paperTint);
+        backdrop-filter: blur(14px) saturate(140%);
+        border: 1px solid rgba(255,255,255,.22);
+        box-shadow: 0 18px 55px rgba(0,0,0,.18);
+      }
+
+      .panelText{
+        margin:0;
+        color: rgba(255,255,255,.96);
+        text-shadow: 0 2px 14px rgba(0,0,0,.55);
+
+        font-family:"Candara",system-ui,-apple-system,Segoe UI,Roboto,Arial;
+        font-size:18px;
+
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+      }
+      .panelText.muted{ opacity:0; }
+
+      .closing{
+        padding: 70px 22px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .closing h2{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+        margin:0 0 10px;
+        font-size:30px;
+        color:#fff;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+      .closing p{
+        margin:0;
+        opacity:.9;
+        color:#fff;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+
+      .footer{
+        padding:30px 22px;
+        border-top:1px solid rgba(255,255,255,.18);
+        opacity:.85;
+        color:#fff;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+        position:relative;
+        z-index:10;
+      }
+
+      @media (max-width: 900px){
+        :root{ --templateOverlap: 28vh; }
+        .panelTitle{ font-size:24px; }
+        .panel{ min-height: 94vh; padding-top:2vh; }
+        .panelPaper{ max-width:64ch; margin:0 10px; padding: 14px 14px 16px; }
+        .panelText{ font-size:17px; }
+        .hero-inner{ padding: 70px 0 44px; }
+      }
+    </style>
+  </body>
 </html>

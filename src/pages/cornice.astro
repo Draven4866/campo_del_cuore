@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Leggi la cornice — Il Campo del Cuore</title>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">Il Campo del Cuore</a>
+      <nav class="nav">
+        <a href="/chi-sono">Chi sono</a>
+        <a href="/video">Galleria Video</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="pageHero" aria-label="Testata pagina">
+        <div class="pageHeroInner">
+          <h1>Leggi la cornice</h1>
+          <p>
+            Questa pagina chiarisce l’intento e i confini per usare il Manuale senza confondere:
+            pratica con prestazione e ascolto con autoanalisi.
+          </p>
+        </div>
+      </section>
+
+      <section class="paper" aria-label="Contenuto">
+        <article class="paperInner">
+          <h2>Perché serve</h2>
+          <p>
+            Quando non leggiamo ciò che ci attraversa, finiamo spesso in due estremi: o ci perdiamo
+            nel ragionamento infinito, oppure ci ignoriamo finché qualcosa esplode. Il Manuale nasce
+            per stare nel mezzo: rendere l’esperienza leggibile, così che una scelta diventi
+            possibile. Non per controllarti, ma per capirti mentre accade.
+          </p>
+
+          <h2>Cosa non è</h2>
+          <p>
+            Questo percorso non è terapia e non sostituisce un supporto professionale quando serve.
+            Non è un progetto per “diventare migliori”, né un sistema per giudicare emozioni giuste
+            o sbagliate. Non è una teoria totale che spiega tutto, e non è un’etichetta identitaria
+            (“io sono fatto così”). È uno strumento: funziona se resta semplice, concreto,
+            verificabile.
+          </p>
+
+          <h2>Cosa trovi nel Manuale (senza spoiler)</h2>
+          <p>
+            Troverai una struttura modulare, fatta per essere attraversata senza saturarti. Ogni
+            parte offre: una cornice breve per orientarti, una pratica breve ripetibile, indicazioni
+            di osservazione nella giornata e un gesto minimo—piccolo ma reale—per fissare ciò che
+            hai compreso. L’obiettivo non è “fare tanto”, ma fare bene una cosa alla volta, finché
+            diventa naturale.
+          </p>
+
+          <h2>Come usarlo</h2>
+          <p>
+            Pochi minuti, continuità, niente performance. Se salti un giorno non “perdi” nulla:
+            riprendi dal punto in cui sei. Questo è un lavoro di precisione gentile, non una gara.
+          </p>
+
+          <h2>Privacy ed etica</h2>
+          <p>
+            Questo sito è una soglia: non raccoglie né archivia dati personali e non fa profilazione.
+            Se durante il percorso emergono temi intensi o dolorosi, il consiglio è semplice:
+            prenditi cura di te con gli strumenti giusti, anche chiedendo aiuto quando necessario.
+          </p>
+
+          <h2>Prossimo passo</h2>
+          <p>
+            Torna alla Home e scorri la pagina: è costruita per introdurre il ritmo del percorso.
+            Se vuoi una voce guida, guarda il video introduttivo.
+          </p>
+
+          <div class="ctaRow" role="navigation" aria-label="Azioni">
+            <a class="btn btnGhost" href="/" role="button">Torna alla Home e scorri</a>
+            <a class="btn btnPrimary" href="/video" role="button">Guarda il video introduttivo</a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>© <span id="y"></span> Il Campo del Cuore</small>
+    </footer>
+
+    <script>
+      document.getElementById("y").textContent = String(new Date().getFullYear());
+    </script>
+
+    <style>
+      :root{
+        --chakraGreen: rgba(150, 255, 190, 0.18);
+        --ghostWhite: rgba(255,255,255,0.16);
+
+        /* livello 2 (paperInner): più trasparente = abbassa questo valore */
+        --paperBg: rgba(15,15,15,.30);
+
+        /* bordo e blur del vetro */
+        --paperBorder: rgba(255,255,255,.22);
+        --paperBlur: 14px;
+      }
+
+      /* ===== FONTS (public/fonts) ===== */
+      @font-face{
+        font-family: "SpinCycle";
+        src: url("/fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "CelticGaramond";
+        src: url("/fonts/CELTG___.TTF") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face{
+        font-family: "Candara";
+        src: url("/fonts/candara.ttf") format("truetype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      *{ box-sizing:border-box; }
+      a{ color:inherit; text-decoration:none; }
+
+      /* ===== BACKGROUND: nudo e crudo ===== */
+      body{
+        margin:0;
+        color:#fff;
+        font-family:"Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        line-height:1.5;
+
+        background-color:#000; /* fallback */
+        background-image: url("/img/cornice_bkg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      /* TOPBAR */
+      .topbar{
+        position:sticky; top:0; z-index:60;
+        display:flex; justify-content:space-between; align-items:center;
+        padding:16px 22px;
+        backdrop-filter:saturate(180%) blur(10px);
+        background: rgba(210,235,255,.88);
+        border-bottom:1px solid rgba(0,0,0,.06);
+      }
+      .brand{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+        color:#0b0b0b;
+      }
+      .nav a{
+        margin-left:14px;
+        opacity:.85;
+        font-family:"CelticGaramond","Candara",system-ui,serif;
+        color:#0b0b0b;
+      }
+      .nav a:hover{ opacity:1; }
+
+      /* HERO PAGE (solo un “cuscino” leggero per non perdere il titolo) */
+      .pageHero{
+        position:relative;
+        padding: 64px 22px 28px;
+        overflow:hidden;
+      }
+      .pageHero::before{
+        content:"";
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background:
+          radial-gradient(70% 60% at 50% 10%, rgba(0,0,0,.10), rgba(0,0,0,.48)),
+          linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.56));
+      }
+      .pageHeroInner{
+        position:relative;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align:center;
+      }
+      .pageHero h1{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+        margin:0 0 10px;
+        font-size: clamp(34px, 5vw, 58px);
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+      .pageHero p{
+        font-family:"CelticGaramond","Candara",system-ui,serif;
+        margin:0 auto;
+        max-width: 70ch;
+        opacity:.95;
+        font-size: 18px;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+
+      /* PAPER */
+      .paper{
+        padding: 26px 22px 72px;
+      }
+      .paperInner{
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 22px 20px 26px;
+        border-radius: 18px;
+
+        background: var(--paperBg);
+        backdrop-filter: blur(var(--paperBlur)) saturate(140%);
+        border: 1px solid var(--paperBorder);
+        box-shadow: 0 18px 55px rgba(0,0,0,.25);
+      }
+
+      .paperInner h2{
+        font-family:"SpinCycle","Candara",system-ui,sans-serif;
+        font-weight:400;
+        margin: 18px 0 8px;
+        font-size: 26px;
+      }
+      .paperInner p{
+        margin: 0 0 14px;
+        max-width: 75ch;
+        font-size: 18px;
+        color: rgba(255,255,255,.96);
+        text-shadow: 0 2px 14px rgba(0,0,0,.45);
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+      }
+
+      /* CTA */
+      .ctaRow{
+        margin-top: 18px;
+        display:flex;
+        gap:14px;
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+      .btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-family: "CelticGaramond","Candara",system-ui,serif;
+        font-weight: 600;
+        line-height: 1;
+        border: 1px solid rgba(255,255,255,.70);
+        backdrop-filter: blur(8px);
+        cursor:pointer;
+        user-select:none;
+        transition: transform .12s ease, filter .12s ease, background-color .12s ease;
+      }
+      .btn:focus-visible{
+        outline: 2px solid rgba(255,255,255,.85);
+        outline-offset: 3px;
+      }
+
+      .btnPrimary{
+        background: var(--chakraGreen);
+        color:#0b0b0b;
+        border-color: rgba(0,0,0,.70);
+      }
+      .btnPrimary:hover{
+        background: rgba(150,255,190,0.26);
+        filter: brightness(1.03);
+        transform: translateY(-1px);
+      }
+
+      .btnGhost{
+        background: var(--ghostWhite);
+        color:#fff;
+        border-color: rgba(255,255,255,.70);
+      }
+      .btnGhost:hover{
+        background: rgba(255,255,255,0.24);
+        transform: translateY(-1px);
+      }
+
+      .footer{
+        padding:30px 22px;
+        border-top:1px solid rgba(255,255,255,.18);
+        opacity:.85;
+        text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+
+      @media (max-width: 900px){
+        .paperInner{ padding: 20px 16px 24px; }
+        .paperInner h2{ font-size:24px; }
+        .paperInner p{ font-size:17px; }
+      }
+    </style>
+  </body>
+</html>
