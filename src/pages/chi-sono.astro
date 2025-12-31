@@ -1,20 +1,20 @@
 ---
 const BASE = import.meta.env.BASE_URL;
 
-// Link interni (con base corretta)
+// Link interni (con base corretta per GitHub Pages in sottocartella)
 const hrefHome = BASE;
-const hrefChi = `${BASE}chi-sono/`;
-const hrefVideo = `${BASE}video/`;
-const hrefCornice = `${BASE}cornice/`;
+const hrefChi = BASE + "chi-sono/";
+const hrefVideo = BASE + "video/";
+const hrefCornice = BASE + "cornice/";
 
 // Asset (con base corretta)
-const profilImg = `${BASE}img/profilo.jpg`;
-const bkg = `${BASE}img/chi-sono_bkg.jpg`;
+const profilImg = BASE + "img/profilo.jpg";
+const bkg = BASE + "img/chi-sono_bkg.jpg";
 
 // Font (con base corretta)
-const spinFont = `${BASE}fonts/Spin%20Cycle%20Regular.ttf`;
-const celtFont = `${BASE}fonts/CELTG___.TTF`;
-const candFont = `${BASE}fonts/candara.ttf`;
+const spinFont = BASE + "fonts/Spin%20Cycle%20Regular.ttf";
+const celtFont = BASE + "fonts/CELTG___.TTF";
+const candFont = BASE + "fonts/candara.ttf";
 ---
 
 <!doctype html>
@@ -47,124 +47,83 @@ const candFont = `${BASE}fonts/candara.ttf`;
 
       <section class="paper" aria-label="Contenuto">
         <article class="paperInner">
-          <section style="overflow:auto;">
+          <section class="floatWrap">
             <img
+              class="profileImg"
               src={profilImg}
               alt=""
               width="200"
               height="250"
-              style="
-                float:left;
-                margin:0 16px 12px 0;
-                border:3px solid #000;
-                box-sizing:border-box;
-                display:block;
-              "
-            >
+            />
 
-            <h2 style="margin-top:0;">Identità e postura</h2>
+            <h2 class="h2First">Identità e postura</h2>
             <p>
-              Mi chiamo Raffaele e sono uno scrittore con
-              formazione artistica, oltre che uno studioso appassionato di esoterismo. Non sono un dottore,
-              né uno scienziato, né un “guru”. Il mio lavoro parte da una scelta semplice: quella di trattare
-              ciò che è interiore con rispetto, lucidità e concretezza, senza spettacolarizzarlo e
-              senza trasformarlo in un’etichetta identitaria.
+              Mi chiamo Raffaele e sono uno scrittore con formazione artistica, oltre che uno studioso
+              appassionato di esoterismo. Non sono un dottore, né uno scienziato, né un “guru”.
+              Il mio lavoro parte da una scelta semplice: trattare ciò che è interiore con rispetto,
+              lucidità e concretezza, senza spettacolarizzarlo e senza trasformarlo in un’etichetta identitaria.
             </p>
 
             <h2>Scrittura come tecnologia di traduzione</h2>
             <p>
-              La scrittura mi accompagna da sempre: è stata prima un appiglio immaginifico e poi una
-              disciplina. Nel tempo ho imparato a usarla come strumento di traduzione, dare forma a
-              ciò che preme dentro ordinando il caos, e costruire linguaggio laddove prima c’era solo
-              intensità. Questa attitudine è il filo che unisce i miei percorsi: artistico, narrativo
-              e di ricerca sul Campo.
+              La scrittura mi accompagna da sempre: è stata prima un appiglio immaginifico e poi una disciplina.
+              Nel tempo ho imparato a usarla come strumento di traduzione: dare forma a ciò che preme dentro,
+              ordinare il caos e costruire linguaggio laddove prima c’era solo intensità.
             </p>
           </section>
 
-          <div style="clear:both;"></div>
-
           <h2>Formazione artistica e primo corpus</h2>
           <p>
-            Mi sono laureato presso l’Università Ca’ Foscari di Venezia in Tecniche Artistiche dello
-            Spettacolo (T.A.R.S.). Dopo la laurea, nel 2010, ho rivisto alcuni scritti composti tra
-            il 1998 e il 2005: una raccolta di poesie e una serie di racconti brevi. Quel lavoro di
-            revisione è stato un atto fondativo: trasformare materiale “grezzo” in un primo nucleo
-            coerente.
+            Mi sono laureato presso l’Università Ca’ Foscari di Venezia in Tecniche Artistiche dello Spettacolo (T.A.R.S.).
+            Dopo la laurea, nel 2010, ho rivisto alcuni scritti composti tra il 1998 e il 2005: una raccolta di poesie
+            e una serie di racconti brevi. Quel lavoro di revisione è stato un atto fondativo.
           </p>
 
           <h2>Musica e dimensione internazionale</h2>
           <p>
-            Dal 2010 mi sono dedicato intensamente anche alla musica con un progetto hard rock/metal.
-            Quel periodo mi ha portato in contesti di produzione professionale e in studi di
-            registrazione di riferimento, fino a una fase internazionale culminata con un debut album
-            pubblicato ufficialmente nell’agosto del 2012. È stata una scuola di precisione: ritmo,
-            struttura, lavoro di squadra, e responsabilità verso l’opera.
+            Dal 2010 mi sono dedicato anche alla musica con un progetto hard rock/metal. Quel periodo mi ha portato
+            in contesti di produzione professionale e in studi di registrazione, fino a una fase internazionale
+            culminata con un debut album pubblicato ufficialmente nell’agosto del 2012.
           </p>
 
           <h2>Ritorno alla scrittura e formazione narrativa</h2>
           <p>
-            Dopo un periodo di riflessione e studio, dal 2015 ho scelto di dedicarmi pienamente alla
-            scrittura. Nel 2016 un incontro formativo con Franco Forte mi ha aiutato a mettere a
-            terra metodo e costanza. A metà 2018 sono stato selezionato per il Master in Tecniche
-            della Narrazione della Scuola Palomar (2018/2019), dove ho approfondito architettura e
-            pianificazione del romanzo. Da quel percorso è nato un progetto narrativo che oggi sto
-            ultimando.
+            Dal 2015 ho scelto di dedicarmi pienamente alla scrittura. Nel 2016 un incontro formativo con Franco Forte
+            mi ha aiutato a mettere a terra metodo e costanza. A metà 2018 sono stato selezionato per il Master in
+            Tecniche della Narrazione della Scuola Palomar (2018/2019).
           </p>
 
           <h2>Dalla sensibilità alla competenza di campo</h2>
           <p>
-            Negli ultimi anni la mia ricerca si è concentrata su un passaggio specifico: non vivere la
-            sensibilità come rumore di fondo, ma trasformarla in competenza. Ho trovato un contesto di
-            lavoro serio e pratico in
-            <a href="https://www.fucinalchemica.it" target="_blank" rel="noopener noreferrer">FucinAlchemica</a>,
-            dove l’attenzione è rivolta a postura, ascolto e restituzione sobria: elementi essenziali
-            per stare in un “Campo condiviso” senza confonderlo con suggestione o performance.
+            Negli ultimi anni la mia ricerca si è concentrata su un passaggio specifico: trasformare la sensibilità
+            in competenza. Ho trovato un contesto di lavoro serio e pratico in
+            <a href="https://www.fucinalchemica.it" target="_blank" rel="noopener noreferrer">FucinAlchemica</a>.
           </p>
 
           <h2>Integrazione corpo–psiche</h2>
           <p>
-            Per non ridurre tutto a concetto, ho integrato la dimensione somatica e il lavoro sulle
-            radici: pratiche di radicamento presso
+            Ho integrato la dimensione somatica e il lavoro sulle radici: pratiche di radicamento presso
             <a href="https://raidho-healinghorses.com" target="_blank" rel="noopener noreferrer">Raidho Healing Horses</a>
             e un percorso sul bambino interiore con Cinzia Maino di
             <a href="https://orionmultidimensional.com" target="_blank" rel="noopener noreferrer">Orion Multi Dimensional</a>.
-            Per me questa integrazione è fondamentale: se un’idea non si incarna nel corpo e nel
-            quotidiano, resta teoria.
           </p>
 
           <h2>Campo Emozionale</h2>
           <p>
-            Da questo intreccio di scrittura, pratica e osservazione nasce il concetto di Campo
-            Emozionale: un modo per nominare e rendere leggibile ciò che il Corpo Emozionale “emana”
-            nella vita quotidiana. Non come teoria totale, ma come mappa utile: una struttura che
-            aiuta a riconoscere cosa accade, come reagiamo e quali gesti minimi cambiano davvero la
-            qualità del presente.
-          </p>
-
-          <h2>Rigorosità senza maschere: neuroscienze e coordinate</h2>
-          <p>
-            Per dare maggiore solidità alla traduzione della mia esperienza in esercizi e pratiche,
-            ho cercato appigli di rigore. Da un lato, alcuni concetti delle neuroscienze come
-            riferimento operativo (non per “dimostrare” l’esperienza, ma per renderla più chiara,
-            comunicabile e applicabile). Dall’altro, la ricerca di Jean Gebser sulle strutture della
-            coscienza come griglia di coordinate di assi “cartesiani” entro cui ordinare fenomeni e
-            linguaggi, e disegnare un grafico coerente del lavoro pratico.
+            Da questo intreccio nasce il concetto di Campo Emozionale: un modo per rendere leggibile ciò che il Corpo
+            Emozionale “emana” nella vita quotidiana, come mappa utile e struttura pratica.
           </p>
 
           <h2>Etica e confini</h2>
           <p>
-            Il mio lavoro non è terapia e non sostituisce un supporto professionale quando serve.
-            Non è un sistema per giudicare emozioni giuste o sbagliate, né un percorso di
-            perfezionismo. È un metodo sobrio: funziona se resta semplice, concreto e verificabile
-            nel quotidiano. L’obiettivo è uno solo: rendere l’esperienza leggibile, così che una
-            scelta diventi possibile.
+            Il mio lavoro non è terapia e non sostituisce un supporto professionale quando serve. È un metodo sobrio:
+            funziona se resta semplice, concreto e verificabile nel quotidiano.
           </p>
 
           <h2>Prossimo passo</h2>
           <p>
-            Se vuoi capire il tono del percorso, leggi la cornice: chiarisce l’intento, i confini e
-            il modo migliore per usare il Manuale senza saturarti. Se preferisci una guida in video,
-            trovi la galleria nella pagina dedicata.
+            Se vuoi capire il tono del percorso, leggi la cornice. Se preferisci una guida in video, trovi la galleria
+            nella pagina dedicata.
           </p>
 
           <div class="ctaRow" role="navigation" aria-label="Azioni">
@@ -189,10 +148,8 @@ const candFont = `${BASE}fonts/candara.ttf`;
       :root{
         --chakraGreen: rgba(150, 255, 190, 0.18);
         --ghostWhite: rgba(255,255,255,0.16);
-        --softWhite: rgba(255,255,255,0.92);
       }
 
-      /* ===== FONTS (public/fonts) ===== */
       @font-face{
         font-family: "SpinCycle";
         src: url(var(--spinFont)) format("truetype");
@@ -217,14 +174,13 @@ const candFont = `${BASE}fonts/candara.ttf`;
 
       *{ box-sizing:border-box; }
 
-      /* ===== BACKGROUND ===== */
       body{
         margin:0;
         color:#fff;
         font-family:"Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
         line-height:1.5;
 
-        background-color:#000; /* fallback */
+        background-color:#000;
         background-image: url(var(--bkg));
         background-size: cover;
         background-position: center;
@@ -233,7 +189,6 @@ const candFont = `${BASE}fonts/candara.ttf`;
         position: relative;
       }
 
-      /* velo leggero globale per leggibilità */
       body::before{
         content:"";
         position: fixed;
@@ -244,11 +199,11 @@ const candFont = `${BASE}fonts/candara.ttf`;
           radial-gradient(80% 60% at 50% 0%, rgba(0,0,0,.18), rgba(0,0,0,.62)),
           linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.70));
       }
+
       header, main, footer{ position: relative; z-index: 1; }
 
       a{ color:inherit; text-decoration:none; }
 
-      /* TOPBAR */
       .topbar{
         position:sticky; top:0; z-index:60;
         display:flex; justify-content:space-between; align-items:center;
@@ -275,7 +230,6 @@ const candFont = `${BASE}fonts/candara.ttf`;
         text-underline-offset: 6px;
       }
 
-      /* HERO PAGE */
       .pageHero{
         position:relative;
         padding: 64px 22px 28px;
@@ -312,7 +266,6 @@ const candFont = `${BASE}fonts/candara.ttf`;
         text-shadow: 0 2px 18px rgba(0,0,0,.55);
       }
 
-      /* PAPER */
       .paper{ padding: 26px 22px 72px; }
       .paperInner{
         max-width: 900px;
@@ -324,6 +277,15 @@ const candFont = `${BASE}fonts/candara.ttf`;
         border: 1px solid rgba(255,255,255,.22);
         box-shadow: 0 18px 55px rgba(0,0,0,.25);
       }
+
+      .floatWrap{ overflow:auto; }
+      .profileImg{
+        float:left;
+        margin:0 16px 12px 0;
+        border:3px solid #000;
+        display:block;
+      }
+      .h2First{ margin-top:0; }
 
       .paperInner h2{
         font-family:"SpinCycle","Candara",system-ui,sans-serif;
@@ -346,9 +308,7 @@ const candFont = `${BASE}fonts/candara.ttf`;
         text-underline-offset: 4px;
         text-decoration-thickness: 1px;
       }
-      .paperInner p a:hover{ opacity: .95; }
 
-      /* CTA */
       .ctaRow{
         margin-top: 18px;
         display:flex;
@@ -371,30 +331,14 @@ const candFont = `${BASE}fonts/candara.ttf`;
         user-select:none;
         transition: transform .12s ease, filter .12s ease, background-color .12s ease;
       }
-      .btn:focus-visible{
-        outline: 2px solid rgba(255,255,255,.85);
-        outline-offset: 3px;
-      }
-
       .btnPrimary{
         background: var(--chakraGreen);
         color:#0b0b0b;
         border-color: rgba(0,0,0,.70);
       }
-      .btnPrimary:hover{
-        background: rgba(150,255,190,0.26);
-        filter: brightness(1.03);
-        transform: translateY(-1px);
-      }
-
       .btnGhost{
         background: var(--ghostWhite);
         color:#fff;
-        border-color: rgba(255,255,255,.70);
-      }
-      .btnGhost:hover{
-        background: rgba(255,255,255,0.24);
-        transform: translateY(-1px);
       }
 
       .footer{
