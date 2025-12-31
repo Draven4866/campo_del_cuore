@@ -26,12 +26,16 @@
 
 const year = new Date().getFullYear();
 
+const baseHref = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
+
 const sections = [
   {
     title: "Il Campo",
     subtitle: "Una mappa pratica per leggere ciò che ti attraversa.",
     bg: import.meta.env.BASE_URL + "img/01.jpg",
-    
+
     body: `Il Campo non è un’idea astratta e non è “psicologia” nel senso classico: è il modo in cui la tua esperienza prende forma, minuto per minuto, dentro e fuori di te. È un insieme di segnali - fisici, emotivi, mentali - che si intrecciano e ti dicono come stai davvero, prima ancora che tu riesca a spiegartelo. Il Campo non giudica: registra. Non ti chiede di essere diverso: ti chiede di ascoltare meglio.
 
 Quando dici “oggi sono scarico”, “sono agitato”, “mi sento chiuso”, stai già descrivendo il Campo, ma lo fai con parole generiche. Qui impari a renderlo leggibile: a distinguere un semplice calo di energia da una reazione, un’ansia da un allarme reale, una tristezza da un nodo antico che chiede attenzione.
@@ -88,7 +92,7 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
 <html lang="it">
   <head>
     <meta charset="utf-8" />
-    <base href={import.meta.env.BASE_URL} />
+    <base href={baseHref} />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Il Campo del Cuore</title>
   </head>
@@ -104,8 +108,8 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
           height="53"
           style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
         >
-        <a href="/chi-sono">Chi Sono</a>
-        <a href="/video">Galleria Video</a>
+        <a href="chi-sono">Chi Sono</a>
+        <a href="video">Galleria Video</a>
       </nav>
     </header>
 
@@ -126,8 +130,8 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
           <p>Una pagina che si legge scorrendo. Una storia che si arricchisce, senza trattenere dati.</p>
 
           <div class="cta">
-            <a class="btn btnPrimary" href="/video" role="button">Guarda il video introduttivo</a>
-            <a class="btn btnGhost" href="/cornice" role="button">Leggi la cornice</a>
+            <a class="btn btnPrimary" href="video" role="button">Guarda il video introduttivo</a>
+            <a class="btn btnGhost" href="cornice" role="button">Leggi la cornice</a>
           </div>
 
           <!-- SCROLL HINT -->
