@@ -30,7 +30,7 @@ const sections = [
   {
     title: "Il Campo",
     subtitle: "Una mappa pratica per leggere ciò che ti attraversa.",
-    bg: "/img/01.jpg",
+    bg: import.meta.env.BASE_URL + "img/01.jpg",
     body: `Il Campo non è un’idea astratta e non è “psicologia” nel senso classico: è il modo in cui la tua esperienza prende forma, minuto per minuto, dentro e fuori di te. È un insieme di segnali - fisici, emotivi, mentali - che si intrecciano e ti dicono come stai davvero, prima ancora che tu riesca a spiegartelo. Il Campo non giudica: registra. Non ti chiede di essere diverso: ti chiede di ascoltare meglio.
 
 Quando dici “oggi sono scarico”, “sono agitato”, “mi sento chiuso”, stai già descrivendo il Campo, ma lo fai con parole generiche. Qui impari a renderlo leggibile: a distinguere un semplice calo di energia da una reazione, un’ansia da un allarme reale, una tristezza da un nodo antico che chiede attenzione.
@@ -42,7 +42,7 @@ In questa prospettiva, la trasformazione non nasce dalla forza di volontà, ma d
   {
     title: "Metafore",
     subtitle: "Oceano, musica, risonanza: capire senza saturare.",
-    bg: "/img/02.jpg",
+    bg: import.meta.env.BASE_URL + "img/02.jpg",
     body: `Per parlare del Campo senza ingabbiarlo in teoria, usiamo immagini che lo rendono immediatamente percepibile. La prima è l’oceano: ogni evento è una goccia che cade sulla superficie e crea onde. Alcune si spengono, altre si sommano, altre ancora urtano zone profonde e diventano mare mosso. Il Campo è l’interferenza continua di queste onde: ciò che senti quando il mondo ti tocca.
 
 La seconda metafora è la musica. Ognuno di noi, anche senza accorgersene, emette un tema: una melodia personale fatta di ritmo, intensità, pause, armoniche. Quella melodia è il tuo Campo quando è in coerenza: ha un timbro riconoscibile, una firma. Ma mentre la suoni, incontri altre melodie. A volte si accordano e ti amplificano. A volte si sovrappongono e nasce la dissonanza: una nota storta, un urto, una vibrazione che ti sposta.
@@ -54,7 +54,7 @@ Nel Silmarillion, Ilúvatar dà un tema agli Ainur: improvvisare su una base com
   {
     title: "Metodo",
     subtitle: "Cornice breve, pratica breve, osservazione, gesto simbolico.",
-    bg: "/img/03.jpg",
+    bg: import.meta.env.BASE_URL + "img/03.jpg",
     body: `Il metodo è volutamente essenziale. Non ti chiede ore di pratica, né discipline rigide. Ti chiede una cosa sola: rendere l’esperienza leggibile giorno dopo giorno finché diventa naturale.
 
 Ogni unità del percorso è costruita in quattro movimenti. Primo: una cornice breve che introduce un tema con parole semplici e immagini chiare. Secondo: una pratica di pochi minuti fatta di ascolto e di domande giuste, non per analizzarti, ma per sentire cosa è vivo. Terzo: un tempo di osservazione durante la giornata. Qui avviene la parte più importante: non fare, ma accorgerti. Noti quando il Campo si chiude, cosa lo apre, cosa lo disturba, cosa lo calma. Quarto: un gesto simbolico, piccolo e concreto, che fissa la comprensione in una traccia reale.
@@ -68,20 +68,20 @@ L’obiettivo non è stare sempre bene. L’obiettivo è avere strumenti quando 
   {
     title: "Autore",
     subtitle: "Chi sono e perché ho scritto questo percorso.",
-    bg: "/img/04.jpg",
+    bg: import.meta.env.BASE_URL + "img/04.jpg",
     body: `Raffaele (Rovereto, 1984) è uno scrittore con formazione in Tecniche Artistiche dello Spettacolo (Ca’ Foscari Venezia). Dopo un’esperienza musicale internazionale culminata in un debut album pubblicato nel 2012, torna alla scrittura e si forma nel Master della Scuola Palomar patrocinato dell'agenzia letteraria di Vicki Satlow. Negli ultimi anni sviluppa il concetto di “Campo Emozionale”, traducendo esperienza e ricerca in pratiche sobrie: integra lavoro di gruppo in FucinAlchemica, radicamento presso Raidho Healing Horses e percorso interiore con Orion Multi Dimensional, ancorando la parte applicativa anche a neuroscienze e a una cornice sulle strutture della coscienza (Jean Gebser).`,
   },
   {
     title: "In arrivo",
     subtitle: "Manuale e mazzo: materiali che completano la soglia.",
-    bg: "/img/05.jpg",
+    bg: import.meta.env.BASE_URL + "img/05.jpg",
     body: `Prima di tutto: il Mazzo dei Tarot del Campo Emozionale è uno strumento di indagine profonda del Sé. Comprende 22 Arcani; a ciascuno sono associati 9 vocaboli-archetipo (neutri, di luce o d’ombra) che costituiscono una base caratteriale ordinata. Il lavoro è semplice: ti centri sulla domanda, lasci emergere l’Arcano collegato (uno o più), poi leggi i suoi vocaboli come una costellazione di atteggiamenti. Così individui blocchi, mancanze o flussi attivi, ma anche virtù che chiedono riconoscimento. La combinazione Arcano+Vocaboli diventa linguaggio: quasi una frase che porta il messaggio in chiaro - ciò che, ora, ha qualcosa da dire.
 
 Accanto al mazzo, sta arrivando il Manuale esteso con schede pratiche (Durata-Postura-Focus-Obiettivo), protocolli di lettura, criteri di verifica (“più aria/meno aria”) e spazio per il log personale... Tutto resta sobrio, modulare, verificabile: pochi strumenti, molta chiarezza. Obiettivo: offrirti maniglie pratiche per passare dalla domanda alla next-action, dall’urto all’informazione, dal concetto alla presa di realtà.`,
   },
 ];
 
-const bgUrls = ["/img/hero.jpg", ...sections.map((s) => s.bg)];
+const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) => s.bg)];
 ---
 
 <html lang="it">
@@ -96,7 +96,7 @@ const bgUrls = ["/img/hero.jpg", ...sections.map((s) => s.bg)];
       <a class="brand" href="/">Il Campo del Cuore</a>
       <nav class="nav">
         <img
-          src="/img/profilo.jpg"
+          src={import.meta.env.BASE_URL + "img/profilo.jpg"}
           alt=""
           width="40"
           height="53"

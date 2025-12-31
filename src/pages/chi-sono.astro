@@ -30,7 +30,7 @@
         <article class="paperInner">
           <section style="overflow:auto;">
             <img
-              src="/img/profilo.jpg"
+              src={import.meta.env.BASE_URL + "img/profilo.jpg"}
               alt=""
               width="200"
               height="250"
@@ -205,7 +205,7 @@
         line-height:1.5;
 
         background-color:#000; /* fallback */
-        background-image: url("/img/chi-sono_bkg.jpg");
+        background-image: url("${import.meta.env.BASE_URL}img/chi-sono_bkg.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
