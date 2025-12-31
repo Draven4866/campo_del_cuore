@@ -28,9 +28,10 @@ const year = new Date().getFullYear();
 
 const sections = [
   {
-    title: "Il Campo",
+    title: "Il Campo (PROVA TEST 123)",
     subtitle: "Una mappa pratica per leggere ciò che ti attraversa.",
     bg: import.meta.env.BASE_URL + "img/01.jpg",
+    
     body: `Il Campo non è un’idea astratta e non è “psicologia” nel senso classico: è il modo in cui la tua esperienza prende forma, minuto per minuto, dentro e fuori di te. È un insieme di segnali - fisici, emotivi, mentali - che si intrecciano e ti dicono come stai davvero, prima ancora che tu riesca a spiegartelo. Il Campo non giudica: registra. Non ti chiede di essere diverso: ti chiede di ascoltare meglio.
 
 Quando dici “oggi sono scarico”, “sono agitato”, “mi sento chiuso”, stai già descrivendo il Campo, ma lo fai con parole generiche. Qui impari a renderlo leggibile: a distinguere un semplice calo di energia da una reazione, un’ansia da un allarme reale, una tristezza da un nodo antico che chiede attenzione.
@@ -94,7 +95,7 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
 
   <body>
     <header class="topbar">
-      <a class="brand" href="/">Il Campo del Cuore</a>
+      <a class="brand" href="">Il Campo del Cuore</a>
       <nav class="nav">
         <img
           src={import.meta.env.BASE_URL + "img/profilo.jpg"}
@@ -376,21 +377,21 @@ const bgUrls = [import.meta.env.BASE_URL + 'img/hero.jpg', ...sections.map((s) =
       /* ===== FONTS (public/fonts) ===== */
       @font-face{
         font-family: "SpinCycle";
-        src: url("/fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
+        src: url("fonts/Spin%20Cycle%20Regular.ttf") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face{
         font-family: "CelticGaramond";
-        src: url("/fonts/CELTG___.TTF") format("truetype");
+        src: url("fonts/CELTG___.TTF") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
       @font-face{
         font-family: "Candara";
-        src: url("/fonts/candara.ttf") format("truetype");
+        src: url("sfonts/candara.ttf") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
