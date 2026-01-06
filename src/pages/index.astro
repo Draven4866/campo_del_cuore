@@ -6,7 +6,7 @@
  * - I font NON devono usare url("fonts/...") nel CSS estratto (finirebbe sotto /_astro/ => 404).
  * - Qui gli @font-face vengono iniettati con URL assolute basate su BASE_URL.
  */
-
+ 
 const year = new Date().getFullYear();
 
 const baseHref = import.meta.env.BASE_URL.endsWith("/")
@@ -121,6 +121,8 @@ const hrefCornice = u("cornice/");
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Il Campo del Cuore</title>
 
+    <link rel="icon" type="image/png" href={u("favicon.png")} />
+    
     <!-- Preload font (opzionale ma utile) -->
     <link rel="preload" href={spinFontUrl} as="font" type="font/ttf" crossorigin />
     <link rel="preload" href={celtFontUrl} as="font" type="font/ttf" crossorigin />

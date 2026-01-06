@@ -51,6 +51,8 @@ const fontFaceCSS = `
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Leggi la cornice — Il Campo del Cuore</title>
 
+    <link rel="icon" type="image/png" href={u("favicon.png")} />
+
     <!-- Preload font -->
     <link rel="preload" href={spinFontUrl} as="font" type="font/ttf" crossorigin />
     <link rel="preload" href={celtFontUrl} as="font" type="font/ttf" crossorigin />
@@ -64,10 +66,21 @@ const fontFaceCSS = `
   <body style={`--bkg: url('${bkgUrl}');`}>
     <header class="topbar">
       <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
-      <nav class="nav">
-        <a href={hrefChi}>Chi sono</a>
-        <a href={hrefVideo}>Galleria Video</a>
+
+      <nav id="siteNav" class="nav" aria-label="Menu">
+        <a class="navItem" href={hrefChi}>Chi sono</a>
+        <a class="navItem" href={hrefVideo}>Galleria Video</a>
       </nav>
+
+      <button
+        class="navToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="siteNav"
+        aria-label="Apri menu"
+      >
+        <span class="navBars" aria-hidden="true"></span>
+      </button>
     </header>
 
     <main>
@@ -143,6 +156,51 @@ const fontFaceCSS = `
     <script>
       const y = document.getElementById('y');
       if (y) y.textContent = String(new Date().getFullYear());
+    </script>
+
+    <script is:inline>
+      (() => {
+        const topbar = document.querySelector(".topbar");
+        const btn = document.querySelector(".navToggle");
+        const nav = document.getElementById("siteNav");
+
+        if (!topbar || !btn || !nav) return;
+
+        const open = () => {
+          topbar.classList.add("navOpen");
+          btn.setAttribute("aria-expanded", "true");
+        };
+
+        const close = () => {
+          topbar.classList.remove("navOpen");
+          btn.setAttribute("aria-expanded", "false");
+        };
+
+        const toggle = () => {
+          const isOpen = topbar.classList.contains("navOpen");
+          isOpen ? close() : open();
+        };
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggle();
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!topbar.classList.contains("navOpen")) return;
+          const t = e.target;
+          if (!(t instanceof Node)) return;
+          if (!topbar.contains(t)) close();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+
+        nav.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => close());
+        });
+      })();
     </script>
 
     <style>

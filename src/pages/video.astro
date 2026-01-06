@@ -52,6 +52,8 @@ const fontFaceCSS = `
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Video — Il Campo del Cuore</title>
 
+    <link rel="icon" type="image/png" href={u("favicon.png")} />
+
     <!-- Preload font -->
     <link rel="preload" href={spinFontUrl} as="font" type="font/ttf" crossorigin />
     <link rel="preload" href={celtFontUrl} as="font" type="font/ttf" crossorigin />
@@ -62,24 +64,25 @@ const fontFaceCSS = `
   </head>
 
     <!-- ✅ stessa logica: variabile CSS valorizzata INLINE -->
-    <header class="topbar">
-      <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
+    <body style={`--bkg: url('${bkgUrl}');`}></body>
+      <header class="topbar">
+        <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
 
-      <nav id="siteNav" class="nav" aria-label="Menu">
-        <a class="navItem" href={hrefChi}>Chi sono</a>
-        <a class="navItem isActive" href={hrefVideo} aria-current="page">Galleria Video</a>
-      </nav>
+        <nav id="siteNav" class="nav" aria-label="Menu">
+          <a class="navItem" href={hrefChi}>Chi sono</a>
+          <a class="navItem isActive" href={hrefVideo} aria-current="page">Galleria Video</a>
+        </nav>
 
-      <button
-        class="navToggle"
-        type="button"
-        aria-expanded="false"
-        aria-controls="siteNav"
-        aria-label="Apri menu"
-      >
-        <span class="navBars" aria-hidden="true"></span>
-      </button>
-    </header>
+        <button
+          class="navToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="siteNav"
+          aria-label="Apri menu"
+        >
+          <span class="navBars" aria-hidden="true"></span>
+        </button>
+      </header>
 
     <main>
       <section class="pageHero" aria-label="Testata pagina">
