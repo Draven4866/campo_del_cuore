@@ -134,17 +134,30 @@ const hrefCornice = u("cornice/");
     <header class="topbar">
       <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
 
-      <nav class="nav">
-        <img
-          src={profileImg}
-          alt=""
-          width="40"
-          height="53"
-          style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
-        />
-        <a href={hrefChi}>Chi Sono</a>
-        <a href={hrefVideo}>Galleria Video</a>
-      </nav>
+      <!-- NAV + HAMBURGER (mobile) -->
+      <div class="navRoot">
+        <nav id="siteNav" class="nav" aria-label="Menu">
+          <img
+            src={profileImg}
+            alt=""
+            width="40"
+            height="53"
+            style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
+          />
+          <a href={hrefChi}>Chi Sono</a>
+          <a href={hrefVideo}>Galleria Video</a>
+        </nav>
+
+        <button
+          class="navToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="siteNav"
+          aria-label="Apri menu"
+        >
+          <span class="navBars" aria-hidden="true"></span>
+        </button>
+      </div>
     </header>
 
     <main>
@@ -379,6 +392,54 @@ const hrefCornice = u("cornice/");
       })();
     </script>
 
+    <script is:inline>
+      (() => {
+        const root = document.querySelector(".navRoot");
+        if (!root) return;
+
+        const btn = root.querySelector(".navToggle");
+        const nav = root.querySelector("#siteNav");
+        if (!btn || !nav) return;
+
+        const open = () => {
+          root.classList.add("navOpen");
+          btn.setAttribute("aria-expanded", "true");
+        };
+
+        const close = () => {
+          root.classList.remove("navOpen");
+          btn.setAttribute("aria-expanded", "false");
+        };
+
+        const toggle = () => {
+          root.classList.contains("navOpen") ? close() : open();
+        };
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggle();
+        });
+
+        // chiudi cliccando fuori
+        document.addEventListener("click", (e) => {
+          if (!root.classList.contains("navOpen")) return;
+          const t = e.target;
+          if (!(t instanceof Node)) return;
+          if (!root.contains(t)) close();
+        });
+
+        // chiudi con ESC
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+
+        // chiudi quando clicchi un link
+        nav.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => close());
+        });
+      })();
+    </script>
+
     <style>
       :root{
         --templateOverlap: 34vh;
@@ -417,6 +478,86 @@ const hrefCornice = u("cornice/");
         font-family:"CelticGaramond","Candara",system-ui,serif;
       }
       .nav a:hover{ opacity:1; }
+
+      /* ===== NAV ROOT (generale) ===== */
+      .navRoot{
+        display:flex;
+        align-items:center;
+        justify-content: space-between;
+        gap: 10px;
+        position: relative; /* ancora il dropdown */
+      }
+
+      /* bottone hamburger (desktop off) */
+      .navRoot .navToggle{
+        display:none;
+        appearance:none;
+        border: 1px solid rgba(0,0,0,0.15);
+        background: rgba(0,0,0,0.06);
+        border-radius: 12px;
+        width: 46px;
+        height: 46px;
+        cursor:pointer;
+        align-items:center;
+        justify-content:center;
+        flex: 0 0 auto;
+      }
+
+      /* icona 3 barre */
+      .navRoot .navBars{
+        width: 22px;
+        height: 2px;
+        background: rgba(0,0,0,0.75);
+        position: relative;
+        display:block;
+        border-radius: 2px;
+      }
+      .navRoot .navBars::before,
+      .navRoot .navBars::after{
+        content:"";
+        position:absolute;
+        left:0;
+        width: 22px;
+        height: 2px;
+        background: rgba(0,0,0,0.75);
+        border-radius: 2px;
+      }
+      .navRoot .navBars::before{ top: -7px; }
+      .navRoot .navBars::after{ top: 7px; }
+
+      /* ===== MOBILE ===== */
+      @media (max-width: 900px){
+        .navRoot .navToggle{ display:flex; }
+
+        /* dropdown */
+        .navRoot .nav{
+          display:none; /* chiusa di default */
+          position:absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          width: min(320px, 92vw);
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+          padding: 12px;
+          border-radius: 16px;
+          background: rgba(255,255,255,0.96);
+          border: 1px solid rgba(0,0,0,0.12);
+          box-shadow: 0 18px 55px rgba(0,0,0,.16);
+          backdrop-filter: blur(10px) saturate(180%);
+          z-index: 60;
+        }
+
+        /* aperta */
+        .navRoot.navOpen .nav{ display:flex; }
+
+        /* opzionale: link full-width comodi da toccare */
+        .navRoot .nav a{
+          display:block;
+          padding: 10px 12px;
+          border-radius: 12px;
+        }
+      }
 
       /* BACKGROUND GLOBAL */
       .bgLayer{
