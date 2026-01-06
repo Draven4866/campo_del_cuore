@@ -133,17 +133,17 @@ const hrefCornice = u("cornice/");
   <body>
     <header class="topbar">
       <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
-
+      <img
+                  src={profileImg}
+                  alt=""
+                  width="40"
+                  height="53"
+                  style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
+                />
       <!-- NAV + HAMBURGER (mobile) -->
       <div class="navRoot">
         <nav id="siteNav" class="nav" aria-label="Menu">
-          <img
-            src={profileImg}
-            alt=""
-            width="40"
-            height="53"
-            style="border:3px solid #000; box-sizing:border-box; display:inline-block; vertical-align:middle;"
-          />
+          
           <a href={hrefChi}>Chi Sono</a>
           <a href={hrefVideo}>Galleria Video</a>
         </nav>
