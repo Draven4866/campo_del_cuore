@@ -109,6 +109,7 @@ const bgUrls = [u("img/hero.jpg"), ...sections.map((s) => s.bg)];
 // link interni (con slash finale)
 const hrefHome = baseHref;
 const hrefChi = u("chi-sono/");
+const hrefInfoPubb = u("infopubb/");
 const hrefVideo = u("video/");
 const hrefCornice = u("cornice/");
 ---
@@ -147,6 +148,7 @@ const hrefCornice = u("cornice/");
         <nav id="siteNav" class="nav" aria-label="Menu">
           
           <a href={hrefChi}>Chi Sono</a>
+          <a href={hrefInfoPubb}>Info Pubblicazione</a>
           <a href={hrefVideo}>Galleria Video</a>
         </nav>
 
@@ -181,6 +183,7 @@ const hrefCornice = u("cornice/");
           <div class="cta">
             <a class="btn btnPrimary" href={hrefVideo} role="button">Guarda il video introduttivo</a>
             <a class="btn btnGhost" href={hrefCornice} role="button">Leggi la cornice</a>
+            <a class="btn btnGhost" href={hrefInfoPubb} role="button">Info Pubblicazione</a>
           </div>
 
           <div class="scrollHint" aria-hidden="true">
@@ -392,6 +395,8 @@ const hrefCornice = u("cornice/");
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", onScroll);
       })();
+
+    
     </script>
 
     <script is:inline>
@@ -439,7 +444,16 @@ const hrefCornice = u("cornice/");
         nav.querySelectorAll("a").forEach((a) => {
           a.addEventListener("click", () => close());
         });
+    
+        // DISATTIVA TEMPORANEAMENTE TASTO 'INFO PUBBLICAZIONE'
+        const disabled = document.querySelectorAll('a[href$="infopubb/"]');
+        disabled.forEach((a) => {
+          a.setAttribute("aria-disabled", "true");
+          a.setAttribute("tabindex", "-1");
+          a.addEventListener("click", (e) => e.preventDefault());
+        });
       })();
+
     </script>
 
     <style>
@@ -875,6 +889,16 @@ const hrefCornice = u("cornice/");
         opacity:.9;
         color:#fff;
         text-shadow: 0 2px 18px rgba(0,0,0,.55);
+      }
+
+      /* ===== TEMP: disattiva "Info Pubblicazione" (top menu + CTA) ===== */
+      .nav a[href$="infopubb/"],
+      .cta a[href$="infopubb/"]{
+        pointer-events: none;      /* non cliccabile */
+        opacity: .45;
+        filter: grayscale(.35);
+        cursor: not-allowed;
+        text-decoration: none;
       }
 
       .footer{

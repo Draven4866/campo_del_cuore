@@ -10,6 +10,7 @@ const hrefHome = baseHref;
 const hrefChi = u('chi-sono/');
 const hrefVideo = u('video/');
 const hrefCornice = u('cornice/');
+const hrefInfo = u('info-pubblicazione/');
 
 // Asset
 const profilImg = u('img/profilo.jpg');
@@ -65,25 +66,25 @@ const fontFaceCSS = `
   </head>
 
   <!-- ✅ FIX SFONDO: variabile CSS valorizzata INLINE (niente {bkgUrl} nel CSS estratto) -->
-    <body style={`--bkg: url('${bkgUrl}');`}>
-      <header class="topbar">
-        <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
+  <body style={`--bkg: url('${bkgUrl}');`}>
+    <header class="topbar">
+      <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
 
-        <nav id="siteNav" class="nav" aria-label="Menu">
-          <a class="navItem isActive" href={hrefChi} aria-current="page">Chi sono</a>
-          <a class="navItem" href={hrefVideo}>Galleria Video</a>
-        </nav>
+      <nav id="siteNav" class="nav" aria-label="Menu">
+        <a class="navItem isActive" href={hrefInfo} aria-current="page">Info Pubblicazione</a>
+        <a class="navItem" href={hrefVideo}>Galleria Video</a>
+      </nav>
 
-        <button
-          class="navToggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="siteNav"
-          aria-label="Apri menu"
-        >
-          <span class="navBars" aria-hidden="true"></span>
-        </button>
-      </header>
+      <button
+        class="navToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="siteNav"
+        aria-label="Apri menu"
+      >
+        <span class="navBars" aria-hidden="true"></span>
+      </button>
+    </header>
 
     <main>
       <section class="pageHero" aria-label="Testata pagina">
@@ -97,7 +98,6 @@ const fontFaceCSS = `
       </section>
 
       <section class="paper" aria-label="Contenuto">
-        <div class="ctaRow" role="navigation" aria-label="Azioni">
         <article class="paperInner">
           <section class="floatWrap">
             <img class="profileImg" src={profilImg} alt="" width="200" height="250" />
@@ -230,16 +230,15 @@ Se devo dire cosa resta, l’apertura non è stata emotività sfrenata, ma compe
 <p>
 L’ultimo pezzo del puzzle era stato dato dal libro Frammenti di un insegnamento sconosciuto del filosofo e matematico Peter Ouspensky, che nel suo libro scrive ciò che ricorda dell’esperienza vissuta con il suo maestro Georges I. Gurdjieff, nel quale libro il ragionamento sui quattro corpi dell’essere umano (divino, intellettuale, emozionale/astrale e fisico), è stato determinate per la conoscenza dell’esistenza del Corpo Emozionale la quale emanazione nel mondo fisico l’ho chiamata proprio, per chiarezza: Campo Emozionale.
 </p>
-    </div>
 
-          <div class="ctaRow" role="navigation" aria-label="Azioni">
-            <a class="btn btnGhost" href={hrefHome} role="button">Torna alla Home</a>
-            <a class="btn btnGhost" href={hrefCornice} role="button">Leggi la cornice</a>
-            <a class="btn btnPrimary" href={hrefVideo} role="button">Vai alla galleria video</a>
-          </div>
+            <div class="ctaRow" role="navigation" aria-label="Azioni">
+              <a class="btn btnGhost" href={hrefHome} role="button">Home</a>
+              <a class="btn btnPrimary" href={hrefVideo} role="button">Galleria video</a>
+              <a class="btn btnGhost" href={hrefCornice} role="button">Leggi la cornice</a>
+            </div>
+          </section>
         </article>
       </section>
-
     </main>
 
     <footer class="footer">
@@ -295,6 +294,18 @@ L’ultimo pezzo del puzzle era stato dato dal libro Frammenti di un insegnament
         // chiudi quando clicchi un link
         nav.querySelectorAll("a").forEach((a) => {
           a.addEventListener("click", () => close());
+        });
+      })();
+    </script>
+
+    <!-- JS: disattiva anche da tastiera i link "Info Pubblicazione" -->
+    <script is:inline>
+      (() => {
+        const disabled = document.querySelectorAll('a[href$="info-pubblicazione/"]');
+        disabled.forEach((a) => {
+          a.setAttribute("aria-disabled", "true");
+          a.setAttribute("tabindex", "-1");
+          a.addEventListener("click", (e) => e.preventDefault());
         });
       })();
     </script>
@@ -366,6 +377,16 @@ L’ultimo pezzo del puzzle era stato dato dal libro Frammenti di un insegnament
         opacity:1;
         text-decoration: underline;
         text-underline-offset: 6px;
+      }
+
+      /* ===== PATCH CSS: disattiva "Info Pubblicazione" (top + eventuali CTA) ===== */
+      .nav a[href$="info-pubblicazione/"],
+      .ctaRow a[href$="info-pubblicazione/"]{
+        pointer-events: none;
+        opacity: .45;
+        filter: grayscale(.35);
+        cursor: not-allowed;
+        text-decoration: none;
       }
 
       /* ===== MOBILE HAMBURGER MENU (Campo del Cuore) ===== */
@@ -518,7 +539,7 @@ L’ultimo pezzo del puzzle era stato dato dal libro Frammenti di un insegnament
         display:flex;
         gap:14px;
         flex-wrap:wrap;
-        justify-content:justify;
+        justify-content: center;
       }
       .btn{
         display:inline-flex;

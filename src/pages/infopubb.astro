@@ -8,6 +8,7 @@ const u = (p: string): string => baseHref + p.replace(/^\/+/, "");
 // Link interni
 const hrefHome = baseHref;
 const hrefChi = u("chi-sono/");
+const hrefInfo = u("info-pubblicazione/");
 const hrefVideo = u("video/");
 const hrefCornice = u("cornice/");
 
@@ -88,6 +89,7 @@ const fontFaceCSS = `
 
             <nav id="siteNav" class="nav" aria-label="Menu">
                 <a class="navItem" href={hrefChi}>Chi sono</a>
+                <a class="navItem" href={hrefInfo}>Info Pubblicazione</a>
                 <a class="navItem" href={hrefVideo}>Galleria Video</a>
             </nav>
 
@@ -370,7 +372,7 @@ const fontFaceCSS = `
 
                             <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-                            <!-- END - We recommend to place the above code in footer or bottom of your website html  -->
+                            <!-- END - We recommend to place the below code in footer or bottom of your website html  -->
                             <!-- End Brevo Form -->
                           
                             <!-- BREVO EMBED END -->
@@ -379,13 +381,13 @@ const fontFaceCSS = `
 
                     <div class="ctaRow" role="navigation" aria-label="Azioni">
                         <a class="btn btnGhost" href={hrefHome} role="button"
-                            >Torna alla Home</a
+                            >Home</a
                         >
                         <a class="btn btnGhost" href={hrefCornice} role="button"
                             >Leggi la cornice</a
                         >
                         <a class="btn btnPrimary" href={hrefVideo} role="button"
-                            >Vai alla galleria video</a
+                            >Galleria video</a
                         >
                     </div>
                 </article>
@@ -445,6 +447,19 @@ const fontFaceCSS = `
                 // chiudi quando clicchi un link
                 nav.querySelectorAll("a").forEach((a) => {
                     a.addEventListener("click", () => close());
+                });
+            })();
+        </script>
+
+        <script is:inline>
+            (() => {
+                const disabled = document.querySelectorAll(
+                    'a[href$="info-pubblicazione/"]'
+                );
+                disabled.forEach((a) => {
+                    a.setAttribute("aria-disabled", "true");
+                    a.setAttribute("tabindex", "-1");
+                    a.addEventListener("click", (e) => e.preventDefault());
                 });
             })();
         </script>
@@ -536,6 +551,15 @@ const fontFaceCSS = `
             }
             .nav a:hover {
                 opacity: 1;
+            }
+
+            /* DISATTIVAZIONE TEMPORANEA "Info Pubblicazione" (stesso stile) */
+            .nav a[href$="info-pubblicazione/"]{
+                pointer-events:none;
+                opacity:.45;
+                filter: grayscale(.35);
+                cursor: not-allowed;
+                text-decoration: none;
             }
 
             /* ===== MOBILE HAMBURGER MENU ===== */
@@ -681,13 +705,14 @@ const fontFaceCSS = `
                 max-width: 100%;
             }
 
-            .ctaRow {
-                margin-top: 18px;
-                display: flex;
-                gap: 14px;
-                flex-wrap: wrap;
-                justify-content: space-between;
+            .ctaRow{
+            margin-top: 18px;
+            display:flex;
+            gap:14px;
+            flex-wrap:wrap;
+            justify-content: center
             }
+
             .btn {
                 display: inline-flex;
                 align-items: center;

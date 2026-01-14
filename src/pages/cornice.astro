@@ -9,6 +9,7 @@ const u = (p: string): string => baseHref + p.replace(/^\/+/, '');
 const hrefHome = baseHref;
 const hrefChi = u('chi-sono/');
 const hrefVideo = u('video/');
+const hrefInfo = u('info-pubblicazione/');
 
 // Background (cornice: usa lo stesso bg della gallery, come avevi già fatto)
 const bkgUrl = u('img/cornice_bkg.jpg');
@@ -69,6 +70,10 @@ const fontFaceCSS = `
 
       <nav id="siteNav" class="nav" aria-label="Menu">
         <a class="navItem" href={hrefChi}>Chi sono</a>
+
+        <!-- ✅ nuovo tasto in mezzo -->
+        <a class="navItem" href={hrefInfo}>Info Pubblicazione</a>
+
         <a class="navItem" href={hrefVideo}>Galleria Video</a>
       </nav>
 
@@ -142,8 +147,8 @@ const fontFaceCSS = `
           </p>
 
           <div class="ctaRow" role="navigation" aria-label="Azioni">
-            <a class="btn btnGhost" href={hrefHome} role="button">Torna alla Home e scorri</a>
-            <a class="btn btnPrimary" href={hrefVideo} role="button">Guarda il video introduttivo</a>
+            <a class="btn btnGhost" href={hrefHome} role="button">Home</a>
+            <a class="btn btnPrimary" href={hrefVideo} role="button">Video introduttivo</a>
           </div>
         </article>
       </section>
@@ -203,6 +208,18 @@ const fontFaceCSS = `
       })();
     </script>
 
+    <!-- ✅ DISATTIVAZIONE TEMPORANEA "Info Pubblicazione" (CSS + JS, stesso stile del precedente) -->
+    <script is:inline>
+      (() => {
+        const disabled = document.querySelectorAll('a[href$="info-pubblicazione/"]');
+        disabled.forEach((a) => {
+          a.setAttribute("aria-disabled", "true");
+          a.setAttribute("tabindex", "-1");
+          a.addEventListener("click", (e) => e.preventDefault());
+        });
+      })();
+    </script>
+
     <style>
       :root{
         --chakraGreen: rgba(150, 255, 190, 0.18);
@@ -216,29 +233,23 @@ const fontFaceCSS = `
         --paperBlur: 14px;
       }
 
-      /* ===== FONTS =====
-         Nota: @font-face iniettati in <head> con URL assolute (vedi fontFaceCSS).
-      */
-
       *{ box-sizing:border-box; }
       a{ color:inherit; text-decoration:none; }
 
-      /* ===== BACKGROUND ===== */
       body{
         margin:0;
         color:#fff;
         font-family:"Candara", system-ui, -apple-system, Segoe UI, Roboto, Arial;
         line-height:1.5;
 
-        background-color:#000; /* fallback */
-        background-image: var(--bkg); /* ✅ prende da style inline sul body */
+        background-color:#000;
+        background-image: var(--bkg);
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
       }
 
-      /* TOPBAR */
       .topbar{
         position:sticky; top:0; z-index:60;
         display:flex; justify-content:space-between; align-items:center;
@@ -260,73 +271,81 @@ const fontFaceCSS = `
       }
       .nav a:hover{ opacity:1; }
 
-      /* ===== MOBILE HAMBURGER MENU (Campo del Cuore) ===== */
-.navToggle{
-  display:none;
-  appearance:none;
-  border: 1px solid rgba(0,0,0,0.15);
-  background: rgba(0,0,0,0.06);
-  border-radius: 12px;
-  width: 46px;
-  height: 46px;
-  cursor:pointer;
-  align-items:center;
-  justify-content:center;
-  flex: 0 0 auto;
-}
+      /* ✅ PATCH CSS: disattiva "Info Pubblicazione" senza “scarpa e ciabatta” */
+      .nav a[href$="info-pubblicazione/"]{
+        pointer-events:none;
+        opacity:.45;
+        filter: grayscale(.35);
+        cursor: not-allowed;
+        text-decoration: none;
+      }
 
-.navBars{
-  width: 22px;
-  height: 2px;
-  background: rgba(0,0,0,0.75);
-  position: relative;
-  display:block;
-  border-radius: 2px;
-}
-.navBars::before,
-.navBars::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width: 22px;
-  height: 2px;
-  background: rgba(0,0,0,0.75);
-  border-radius: 2px;
-}
-.navBars::before{ top: -7px; }
-.navBars::after{ top: 7px; }
+      /* ===== MOBILE HAMBURGER MENU ===== */
+      .navToggle{
+        display:none;
+        appearance:none;
+        border: 1px solid rgba(0,0,0,0.15);
+        background: rgba(0,0,0,0.06);
+        border-radius: 12px;
+        width: 46px;
+        height: 46px;
+        cursor:pointer;
+        align-items:center;
+        justify-content:center;
+        flex: 0 0 auto;
+      }
 
-@media (max-width: 900px){
-  .navToggle{ display:flex; }
+      .navBars{
+        width: 22px;
+        height: 2px;
+        background: rgba(0,0,0,0.75);
+        position: relative;
+        display:block;
+        border-radius: 2px;
+      }
+      .navBars::before,
+      .navBars::after{
+        content:"";
+        position:absolute;
+        left:0;
+        width: 22px;
+        height: 2px;
+        background: rgba(0,0,0,0.75);
+        border-radius: 2px;
+      }
+      .navBars::before{ top: -7px; }
+      .navBars::after{ top: 7px; }
 
-  .nav{
-    display:none;
-    position:absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    width: min(320px, 92vw);
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    padding: 12px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.96);
-    border: 1px solid rgba(0,0,0,0.12);
-    box-shadow: 0 18px 55px rgba(0,0,0,.16);
-    backdrop-filter: blur(10px) saturate(180%);
-    z-index: 60;
-  }
+      @media (max-width: 900px){
+        .navToggle{ display:flex; }
 
-  .topbar.navOpen .nav{ display:flex; }
+        .nav{
+          display:none;
+          position:absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          width: min(320px, 92vw);
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+          padding: 12px;
+          border-radius: 16px;
+          background: rgba(255,255,255,0.96);
+          border: 1px solid rgba(0,0,0,0.12);
+          box-shadow: 0 18px 55px rgba(0,0,0,.16);
+          backdrop-filter: blur(10px) saturate(180%);
+          z-index: 60;
+        }
 
-  .nav a{
-    display:block;
-    padding: 10px 12px;
-    border-radius: 12px;
-  }
-}
+        .topbar.navOpen .nav{ display:flex; }
 
-      /* HERO PAGE */
+        .nav a{
+          display:block;
+          padding: 10px 12px;
+          border-radius: 12px;
+        }
+      }
+
       .pageHero{
         position:relative;
         padding: 64px 22px 28px;
@@ -363,7 +382,6 @@ const fontFaceCSS = `
         text-shadow: 0 2px 18px rgba(0,0,0,.55);
       }
 
-      /* PAPER */
       .paper{
         padding: 26px 22px 72px;
       }
@@ -396,7 +414,6 @@ const fontFaceCSS = `
         hyphens: auto;
       }
 
-      /* CTA */
       .ctaRow{
         margin-top: 18px;
         display:flex;

@@ -10,6 +10,7 @@ const hrefHome = baseHref;
 const hrefChi = u('chi-sono/');
 const hrefVideo = u('video/');
 const hrefCornice = u('cornice/');
+const hrefInfo = u('info-pubblicazione/');
 
 // Background (gallery)
 const bkgUrl = u('img/video-gallery_bkg.jpg');
@@ -63,26 +64,26 @@ const fontFaceCSS = `
     <style is:global set:html={fontFaceCSS}></style>
   </head>
 
-    <!-- ✅ stessa logica: variabile CSS valorizzata INLINE -->
-    <body style={`--bkg: url('${bkgUrl}');`}></body>
-      <header class="topbar">
-        <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
+  <!-- ✅ stessa logica: variabile CSS valorizzata INLINE -->
+  <body style={`--bkg: url('${bkgUrl}');`}>
+    <header class="topbar">
+      <a class="brand" href={hrefHome}>Il Campo del Cuore</a>
 
-        <nav id="siteNav" class="nav" aria-label="Menu">
-          <a class="navItem" href={hrefChi}>Chi sono</a>
-          <a class="navItem isActive" href={hrefVideo} aria-current="page">Galleria Video</a>
-        </nav>
+      <nav id="siteNav" class="nav" aria-label="Menu">
+        <a class="navItem" href={hrefChi}>Chi sono</a>
+        <a class="navItem" href={hrefInfo}>Info Pubblicazione</a>
+      </nav>
 
-        <button
-          class="navToggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="siteNav"
-          aria-label="Apri menu"
-        >
-          <span class="navBars" aria-hidden="true"></span>
-        </button>
-      </header>
+      <button
+        class="navToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="siteNav"
+        aria-label="Apri menu"
+      >
+        <span class="navBars" aria-hidden="true"></span>
+      </button>
+    </header>
 
     <main>
       <section class="pageHero" aria-label="Testata pagina">
@@ -110,7 +111,7 @@ const fontFaceCSS = `
           </p>
 
           <div class="ctaRow" role="navigation" aria-label="Azioni">
-            <a class="btn btnGhost" href={hrefHome} role="button">Torna alla Home</a>
+            <a class="btn btnGhost" href={hrefHome} role="button">Home</a>
             <a class="btn btnGhost" href={hrefCornice} role="button">Leggi la cornice</a>
           </div>
         </article>
@@ -174,6 +175,18 @@ const fontFaceCSS = `
       })();
     </script>
 
+    <!-- ✅ DISATTIVAZIONE TEMPORANEA "Info Pubblicazione" (stesso approccio: CSS + JS) -->
+    <script is:inline>
+      (() => {
+        const disabled = document.querySelectorAll('a[href$="info-pubblicazione/"]');
+        disabled.forEach((a) => {
+          a.setAttribute("aria-disabled", "true");
+          a.setAttribute("tabindex", "-1");
+          a.addEventListener("click", (e) => e.preventDefault());
+        });
+      })();
+    </script>
+
     <style>
       :root{
         --chakraGreen: rgba(150, 255, 190, 0.18);
@@ -232,6 +245,15 @@ const fontFaceCSS = `
         opacity:1;
         text-decoration: underline;
         text-underline-offset: 6px;
+      }
+
+      /* ✅ PATCH CSS: disattiva "Info Pubblicazione" mantenendo lo stesso “linguaggio” visivo */
+      .nav a[href$="info-pubblicazione/"]{
+        pointer-events:none;
+        opacity:.45;
+        filter: grayscale(.35);
+        cursor: not-allowed;
+        text-decoration: none;
       }
 
       /* ===== MOBILE HAMBURGER MENU (Campo del Cuore) ===== */
